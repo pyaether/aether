@@ -1,0 +1,68 @@
+[tool.poetry]
+name = "pytempl"
+version = "0.1.0"
+description = "Build HTML components directly using Python"
+authors = ["Saurabh Ghanekar <ghanekarsaurabh8@gmail.com>"]
+license = "BSD-2-Clause"
+readme = "README.md"
+homepage = "https://github.com/Dexter2389/pytempl"
+repository = "https://github.com/Dexter2389/pytempl"
+documentation = "https://github.com/Dexter2389/pytempl"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+packages = [{ include = "pytempl", from = "src" }]
+include = ["README.md", "LICENSE.md", "CHANGELOG.md"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[tool.poetry.group.dev.dependencies]
+rich = "^13.7.1"
+black = "^24.8.0"
+ruff = "^0.5.6"
+pre-commit = "^3.8.0"
+tomli = "^2.0.1"
+
+
+[tool.black]
+line-length = 88
+
+
+[tool.ruff]
+line-length = 88
+
+
+[tool.ruff.lint]
+select = [
+    # "D",      # pydocstyle
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "ARG001", # unused arguments in functions
+]
+ignore = [
+    "E501", # line too long, handled by black
+    "B008", # do not perform function calls in argument defaults
+    "W191", # indentation contains tabs
+    "B904", # Allow raising exceptions without from e, for HTTPException
+]
+
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+
+[tool.versioning.files]
+version_variable = ["src/pytempl/__init__.py:__version__"]
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

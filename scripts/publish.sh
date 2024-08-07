@@ -1,0 +1,17 @@
+export $(grep -v '^#' .env | xargs -d '\n')
+
+while getopts r: flag
+do
+    case "${flag}" in
+        r) repository=${OPTARG};;
+    esac
+done
+
+if [ "$repository" = "test" ]
+then
+    poetry publish --repository testpypi -u $TEST_PYPI_TOKEN_USERNAME -p $TEST_PYPI_TOKEN_PASSWORD
+else
+    poetry publish --repository pypi -u $PYPI_TOKEN_USERNAME -p $PYPI_TOKEN_PASSWORD
+fi
+
+
