@@ -6,7 +6,7 @@ from .safe_string import safestring_escape
 from .utils import flatten_attributes, handle_exception
 
 
-class BaseTag:
+class BaseWebElement:
     tag_name: str
     have_children: bool
 
@@ -24,7 +24,7 @@ class BaseTag:
             for child in children:
                 if (
                     isinstance(child, str)
-                    or isinstance(child, BaseTag)
+                    or isinstance(child, BaseWebElement)
                     or not isinstance(child, Iterable)
                 ):
                     self.children.append(child)
@@ -59,7 +59,7 @@ class BaseTag:
 
 def render_element(element: Any, stringify: bool = True) -> Generator[str, None, None]:
     try:
-        if isinstance(element, BaseTag):
+        if isinstance(element, BaseWebElement):
             yield from element.render(stringify=stringify)
         elif element is not None:
             yield safestring_escape(element) if stringify else element

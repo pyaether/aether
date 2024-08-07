@@ -1,9 +1,9 @@
-from .base import BaseTag
+from .base import BaseWebElement
 from .safe_string import mark_safe
 from .tags import *  # noqa: F403
 
 
-def render(root: BaseTag) -> str:
+def render(root: BaseWebElement) -> str:
     return mark_safe("").join(root.render(stringify=True))
 
 

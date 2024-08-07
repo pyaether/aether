@@ -1,9 +1,9 @@
 from typing import Generator, Literal
 
-from .base import BaseTag
+from .base import BaseWebElement
 
 
-class A(BaseTag):
+class A(BaseWebElement):
     tag_name = "a"
     have_children = True
 
@@ -14,242 +14,242 @@ class A(BaseTag):
         super().__init__(href=href, **attributes)
 
 
-class Abbr(BaseTag):
+class Abbr(BaseWebElement):
     tag_name = "abbr"
     have_children = True
 
 
-class Address(BaseTag):
+class Address(BaseWebElement):
     tag_name = "address"
     have_children = True
 
 
-class Area(BaseTag):
+class Area(BaseWebElement):
     tag_name = "area"
     have_children = False
 
 
-class Article(BaseTag):
+class Article(BaseWebElement):
     tag_name = "article"
     have_children = True
 
 
-class Aside(BaseTag):
+class Aside(BaseWebElement):
     tag_name = "aside"
     have_children = True
 
 
-class Audio(BaseTag):
+class Audio(BaseWebElement):
     tag_name = "audio"
     have_children = True
 
 
-class B(BaseTag):
+class B(BaseWebElement):
     tag_name = "b"
     have_children = True
 
 
-class Base(BaseTag):
+class Base(BaseWebElement):
     tag_name = "base"
     have_children = False
 
 
-class Bdi(BaseTag):
+class Bdi(BaseWebElement):
     tag_name = "bdi"
     have_children = True
 
 
-class Bdo(BaseTag):
+class Bdo(BaseWebElement):
     tag_name = "bdo"
     have_children = True
 
 
-class Blockquote(BaseTag):
+class Blockquote(BaseWebElement):
     tag_name = "blockquote"
     have_children = True
 
 
-class Body(BaseTag):
+class Body(BaseWebElement):
     tag_name = "body"
     have_children = True
 
 
-class Br(BaseTag):
+class Br(BaseWebElement):
     tag_name = "br"
     have_children = False
 
 
-class Button(BaseTag):
+class Button(BaseWebElement):
     tag_name = "button"
     have_children = True
 
 
-class Canvas(BaseTag):
+class Canvas(BaseWebElement):
     tag_name = "canvas"
     have_children = True
 
 
-class Caption(BaseTag):
+class Caption(BaseWebElement):
     tag_name = "caption"
     have_children = True
 
 
-class Cite(BaseTag):
+class Cite(BaseWebElement):
     tag_name = "cite"
     have_children = True
 
 
-class Code(BaseTag):
+class Code(BaseWebElement):
     tag_name = "code"
     have_children = True
 
 
-class Col(BaseTag):
+class Col(BaseWebElement):
     tag_name = "col"
     have_children = False
 
 
-class Colgroup(BaseTag):
+class Colgroup(BaseWebElement):
     tag_name = "colgroup"
     have_children = True
 
 
-class Data(BaseTag):
+class Data(BaseWebElement):
     tag_name = "data"
     have_children = True
 
 
-class Datalist(BaseTag):
+class Datalist(BaseWebElement):
     tag_name = "datalist"
     have_children = True
 
 
-class Dd(BaseTag):
+class Dd(BaseWebElement):
     tag_name = "dd"
     have_children = True
 
 
-class Del(BaseTag):
+class Del(BaseWebElement):
     tag_name = "del"
     have_children = True
 
 
-class Details(BaseTag):
+class Details(BaseWebElement):
     tag_name = "details"
     have_children = True
 
 
-class Dfn(BaseTag):
+class Dfn(BaseWebElement):
     tag_name = "dfn"
     have_children = True
 
 
-class Dialog(BaseTag):
+class Dialog(BaseWebElement):
     tag_name = "dialog"
     have_children = True
 
 
-class Div(BaseTag):
+class Div(BaseWebElement):
     tag_name = "div"
     have_children = True
 
 
-class Dl(BaseTag):
+class Dl(BaseWebElement):
     tag_name = "dl"
     have_children = True
 
 
-class Dt(BaseTag):
+class Dt(BaseWebElement):
     tag_name = "dt"
     have_children = True
 
 
-class Em(BaseTag):
+class Em(BaseWebElement):
     tag_name = "em"
     have_children = True
 
 
-class Embed(BaseTag):
+class Embed(BaseWebElement):
     tag_name = "embed"
     have_children = False
 
 
-class Fieldset(BaseTag):
+class Fieldset(BaseWebElement):
     tag_name = "fieldset"
     have_children = True
 
 
-class Figcaption(BaseTag):
+class Figcaption(BaseWebElement):
     tag_name = "figcaption"
     have_children = True
 
 
-class Figure(BaseTag):
+class Figure(BaseWebElement):
     tag_name = "figure"
     have_children = True
 
 
-class Footer(BaseTag):
+class Footer(BaseWebElement):
     tag_name = "footer"
     have_children = True
 
 
-class Form(BaseTag):
+class Form(BaseWebElement):
     tag_name = "form"
     have_children = True
 
 
-class H1(BaseTag):
+class H1(BaseWebElement):
     tag_name = "h1"
     have_children = True
 
 
-class H2(BaseTag):
+class H2(BaseWebElement):
     tag_name = "h2"
     have_children = True
 
 
-class H3(BaseTag):
+class H3(BaseWebElement):
     tag_name = "h3"
     have_children = True
 
 
-class H4(BaseTag):
+class H4(BaseWebElement):
     tag_name = "h4"
     have_children = True
 
 
-class H5(BaseTag):
+class H5(BaseWebElement):
     tag_name = "h5"
     have_children = True
 
 
-class H6(BaseTag):
+class H6(BaseWebElement):
     tag_name = "h6"
     have_children = True
 
 
-class Head(BaseTag):
+class Head(BaseWebElement):
     tag_name = "head"
     have_children = True
 
 
-class Header(BaseTag):
+class Header(BaseWebElement):
     tag_name = "header"
     have_children = True
 
 
-class Hgroup(BaseTag):
+class Hgroup(BaseWebElement):
     tag_name = "hgroup"
     have_children = True
 
 
-class Hr(BaseTag):
+class Hr(BaseWebElement):
     tag_name = "hr"
     have_children = False
 
 
-class Html(BaseTag):
+class Html(BaseWebElement):
     tag_name = "html"
     have_children = True
 
@@ -263,17 +263,17 @@ class Html(BaseTag):
         yield from super().render(stringify)
 
 
-class I(BaseTag):  # noqa: E742
+class I(BaseWebElement):  # noqa: E742
     tag_name = "i"
     have_children = True
 
 
-class Iframe(BaseTag):
+class Iframe(BaseWebElement):
     tag_name = "iframe"
     have_children = True
 
 
-class Img(BaseTag):
+class Img(BaseWebElement):
     tag_name = "img"
     have_children = False
 
@@ -281,7 +281,7 @@ class Img(BaseTag):
         super().__init__(src=src, **attributes)
 
 
-class Input(BaseTag):
+class Input(BaseWebElement):
     tag_name = "input"
     have_children = False
 
@@ -316,157 +316,157 @@ class Input(BaseTag):
         super().__init__(type=type, **attributes)
 
 
-class Ins(BaseTag):
+class Ins(BaseWebElement):
     tag_name = "ins"
     have_children = True
 
 
-class Kbd(BaseTag):
+class Kbd(BaseWebElement):
     tag_name = "kbd"
     have_children = True
 
 
-class Label(BaseTag):
+class Label(BaseWebElement):
     tag_name = "label"
     have_children = True
 
 
-class Legend(BaseTag):
+class Legend(BaseWebElement):
     tag_name = "legend"
     have_children = True
 
 
-class Li(BaseTag):
+class Li(BaseWebElement):
     tag_name = "li"
     have_children = True
 
 
-class Link(BaseTag):
+class Link(BaseWebElement):
     tag_name = "link"
     have_children = False
 
 
-class Main(BaseTag):
+class Main(BaseWebElement):
     tag_name = "main"
     have_children = True
 
 
-class Map(BaseTag):
+class Map(BaseWebElement):
     tag_name = "map"
     have_children = True
 
 
-class Mark(BaseTag):
+class Mark(BaseWebElement):
     tag_name = "mark"
     have_children = True
 
 
-class Math(BaseTag):
+class Math(BaseWebElement):
     tag_name = "math"
     have_children = True
 
 
-class Menu(BaseTag):
+class Menu(BaseWebElement):
     tag_name = "menu"
     have_children = True
 
 
-class Meta(BaseTag):
+class Meta(BaseWebElement):
     tag_name = "meta"
     have_children = False
 
 
-class Meter(BaseTag):
+class Meter(BaseWebElement):
     tag_name = "meter"
     have_children = True
 
 
-class Nav(BaseTag):
+class Nav(BaseWebElement):
     tag_name = "nav"
     have_children = True
 
 
-class Noscript(BaseTag):
+class Noscript(BaseWebElement):
     tag_name = "noscript"
     have_children = True
 
 
-class Object(BaseTag):
+class Object(BaseWebElement):
     tag_name = "object"
     have_children = True
 
 
-class Ol(BaseTag):
+class Ol(BaseWebElement):
     tag_name = "ol"
     have_children = True
 
 
-class Optgroup(BaseTag):
+class Optgroup(BaseWebElement):
     tag_name = "optgroup"
     have_children = True
 
 
-class Option(BaseTag):
+class Option(BaseWebElement):
     tag_name = "option"
     have_children = True
 
 
-class Output(BaseTag):
+class Output(BaseWebElement):
     tag_name = "output"
     have_children = True
 
 
-class P(BaseTag):
+class P(BaseWebElement):
     tag_name = "p"
     have_children = True
 
 
-class Picture(BaseTag):
+class Picture(BaseWebElement):
     tag_name = "picture"
     have_children = True
 
 
-class Pre(BaseTag):
+class Pre(BaseWebElement):
     tag_name = "pre"
     have_children = True
 
 
-class Progress(BaseTag):
+class Progress(BaseWebElement):
     tag_name = "progress"
     have_children = True
 
 
-class Q(BaseTag):
+class Q(BaseWebElement):
     tag_name = "q"
     have_children = True
 
 
-class Rp(BaseTag):
+class Rp(BaseWebElement):
     tag_name = "rp"
     have_children = True
 
 
-class Rt(BaseTag):
+class Rt(BaseWebElement):
     tag_name = "rt"
     have_children = True
 
 
-class Ruby(BaseTag):
+class Ruby(BaseWebElement):
     tag_name = "ruby"
     have_children = True
 
 
-class S(BaseTag):
+class S(BaseWebElement):
     tag_name = "s"
     have_children = True
 
 
-class Samp(BaseTag):
+class Samp(BaseWebElement):
     tag_name = "samp"
     have_children = True
 
 
-class Script(BaseTag):
+class Script(BaseWebElement):
     tag_name = "script"
     have_children = True
 
@@ -486,67 +486,67 @@ class Script(BaseTag):
         super().__init__(**attributes)
 
 
-class Search(BaseTag):
+class Search(BaseWebElement):
     tag_name = "search"
     have_children = True
 
 
-class Section(BaseTag):
+class Section(BaseWebElement):
     tag_name = "section"
     have_children = True
 
 
-class Select(BaseTag):
+class Select(BaseWebElement):
     tag_name = "select"
     have_children = True
 
 
-class Slot(BaseTag):
+class Slot(BaseWebElement):
     tag_name = "slot"
     have_children = True
 
 
-class Small(BaseTag):
+class Small(BaseWebElement):
     tag_name = "small"
     have_children = True
 
 
-class Source(BaseTag):
+class Source(BaseWebElement):
     tag_name = "source"
     have_children = False
 
 
-class Span(BaseTag):
+class Span(BaseWebElement):
     tag_name = "span"
     have_children = True
 
 
-class Strong(BaseTag):
+class Strong(BaseWebElement):
     tag_name = "strong"
     have_children = True
 
 
-class Style(BaseTag):
+class Style(BaseWebElement):
     tag_name = "style"
     have_children = True
 
 
-class Sub(BaseTag):
+class Sub(BaseWebElement):
     tag_name = "sub"
     have_children = True
 
 
-class Summary(BaseTag):
+class Summary(BaseWebElement):
     tag_name = "summary"
     have_children = True
 
 
-class Sup(BaseTag):
+class Sup(BaseWebElement):
     tag_name = "sup"
     have_children = True
 
 
-class Svg(BaseTag):
+class Svg(BaseWebElement):
     tag_name = "svg"
     have_children = True
 
@@ -555,86 +555,86 @@ class Svg(BaseTag):
         super().__init__(**attributes)
 
 
-class Table(BaseTag):
+class Table(BaseWebElement):
     tag_name = "table"
     have_children = True
 
 
-class Tbody(BaseTag):
+class Tbody(BaseWebElement):
     tag_name = "tbody"
     have_children = True
 
 
-class Td(BaseTag):
+class Td(BaseWebElement):
     tag_name = "td"
     have_children = True
 
 
-class Template(BaseTag):
+class Template(BaseWebElement):
     tag_name = "template"
     have_children = True
 
 
-class Textarea(BaseTag):
+class Textarea(BaseWebElement):
     tag_name = "textarea"
     have_children = True
 
 
-class Tfoot(BaseTag):
+class Tfoot(BaseWebElement):
     tag_name = "tfoot"
     have_children = True
 
 
-class Th(BaseTag):
+class Th(BaseWebElement):
     tag_name = "th"
     have_children = True
 
 
-class THead(BaseTag):
+class THead(BaseWebElement):
     tag_name = "thead"
     have_children = True
 
 
-class Time(BaseTag):
+class Time(BaseWebElement):
     tag_name = "time"
     have_children = True
 
 
-class Title(BaseTag):
+class Title(BaseWebElement):
     tag_name = "title"
     have_children = True
 
 
-class Tr(BaseTag):
+class Tr(BaseWebElement):
     tag_name = "tr"
     have_children = True
 
 
-class Track(BaseTag):
+class Track(BaseWebElement):
     tag_name = "track"
     have_children = False
 
 
-class U(BaseTag):
+class U(BaseWebElement):
     tag_name = "u"
     have_children = True
 
 
-class Ul(BaseTag):
+class Ul(BaseWebElement):
     tag_name = "ul"
     have_children = True
 
 
-class Var(BaseTag):
+class Var(BaseWebElement):
     tag_name = "var"
     have_children = True
 
 
-class Video(BaseTag):
+class Video(BaseWebElement):
     tag_name = "video"
     have_children = True
 
 
-class Wbr(BaseTag):
+class Wbr(BaseWebElement):
     tag_name = "wbr"
     have_children = False
