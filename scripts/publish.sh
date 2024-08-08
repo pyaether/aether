@@ -1,4 +1,12 @@
-export $(grep -v '^#' .env | xargs -d '\n')
+machine_type=$(uname -s)
+
+if [ "$machine_type" = "Darwin" ]
+then
+    export $(grep -v '^#' .env | xargs -0)
+else
+    export $(grep -v '^#' .env | xargs -d '\n')
+fi
+
 
 while getopts r: flag
 do
