@@ -1,6 +1,6 @@
+from . import tags
 from .base import BaseWebElement
 from .safe_string import mark_safe
-from .tags import *  # noqa: F403
 
 
 def render(root: BaseWebElement) -> str:
@@ -8,3 +8,4 @@ def render(root: BaseWebElement) -> str:
 
 
 __version__ = "0.0.0"
+__all__ = ["render", "tags", "BaseWebElement", "mark_safe"]
