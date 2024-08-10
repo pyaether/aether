@@ -1,6 +1,6 @@
-from . import tags
-from .base import BaseWebElement
-from .safe_string import mark_safe
+from pytempl import tags
+from pytempl.base import BaseWebElement
+from pytempl.safe_string import mark_safe
 
 
 def render(root: BaseWebElement) -> str:
