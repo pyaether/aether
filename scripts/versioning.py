@@ -11,7 +11,7 @@ def load_config():
     working_dir = os.getcwd()
     if os.path.isfile(working_dir + "/pyproject.toml"):
         with open(working_dir + "/pyproject.toml", "rb") as f:
-            pyproject_tools = tomli.load(f).get("tool")
+            pyproject_tools: dict = tomli.load(f).get("tool")
             version = pyproject_tools.get("poetry").get("version")
             config = pyproject_tools.get("versioning").get("files")
             return version, config

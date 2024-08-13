@@ -12,20 +12,33 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-packages = [{ include = "pytempl", from = "src" }]
+packages = [
+    { include = "pytempl", from = "src" },
+    { include = "pytempl_cli", from = "src" },
+]
 include = ["README.md", "LICENSE.md", "CHANGELOG.md"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 
+[tool.poetry.group.cli.dependencies]
+click = { version = "^8.1", extras = ["cli"] }
+pydantic = { version = "^2.8", extras = ["cli"] }
+tomli = { version = "^2.0", extras = ["cli"] }
+beautifulsoup4 = { version = "^4.12.0", extras = ["cli"] }
 
 [tool.poetry.group.dev.dependencies]
-rich = "^13.7.1"
-black = "^24.8.0"
-ruff = "^0.5.6"
-pre-commit = "^3.8.0"
-tomli = "^2.0.1"
+rich = "^13.7"
+black = "^24.8"
+ruff = "^0.5"
+pre-commit = "^3.8"
+tomli = "^2.0"
 
+[tool.poetry.extras]
+cli = ["click", "pydantic", "tomli", "beautifulsoup4"]
+
+[tool.poetry.scripts]
+pytempl-cli = "pytempl_cli.__main__:main"
 
 [tool.black]
 line-length = 88
