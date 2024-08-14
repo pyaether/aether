@@ -45,7 +45,7 @@ def build(debug: bool) -> None:
     if debug:
         click.echo("Rendering HTML...")
     rendered_html = render(instance())
-    soup = BeautifulSoup(rendered_html, "html.parser")
+    soup = BeautifulSoup(rendered_html, "lxml")
 
     def update_paths(tag_name: str, attribute: str) -> None:
         for tag in soup.find_all(tag_name):
@@ -84,8 +84,10 @@ def build(debug: bool) -> None:
 
     if debug:
         click.echo("Writing final HTML to file...")
-    with open(pytempl_config.build_output_dir / "index.html", "w") as file:
-        file.write(str(soup.prettify()))
+    with open(
+        pytempl_config.build_output_dir / "index.html", "w", encoding="utf-8"
+    ) as file:
+        file.write(soup.decode(formatter="html5"))
 
     click.echo("Built successfully")
 
