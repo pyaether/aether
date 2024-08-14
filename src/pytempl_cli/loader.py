@@ -50,6 +50,8 @@ class PytemplConfig(BaseModel):
     styles_dir: Path = None
     js_scripts_dir: Path = None
     build_output_dir: Path = Field(default=Path("build/"))
+    run_host: str = Field(default="localhost")
+    run_port: int = Field(default=8080)
 
 
 def load_configs() -> PytemplConfig:
@@ -59,10 +61,19 @@ def load_configs() -> PytemplConfig:
 
     with open(pyproject_file, "rb") as file:
         pyproject_tools: dict = tomli.load(file).get("tool", {})
-        config = pyproject_tools.get("pytempl", {})
+        config: dict = pyproject_tools.get("pytempl", {})
         output_dir = config.get("build", {}).get("output_dir", "build")
+        host = config.get("run", {}).get("host")
+        port = config.get("run", {}).get("port")
 
     pytempl_config = PytemplConfig(**config)
+
+    if host:
+        pytempl_config.run_host = host
+
+    if port:
+        pytempl_config.run_port = port
+
     if output_dir:
         pytempl_config.build_output_dir = Path(output_dir)
 

@@ -1,3 +1,6 @@
+import contextlib
+import http.server
+import socket
 from pathlib import Path
 
 import click
@@ -94,7 +97,36 @@ def build(debug: bool) -> None:
 
 @click.command()
 def run() -> None:
-    click.echo("Running Application")
+    pytempl_config = load_configs()
+
+    if not pytempl_config.build_output_dir.exists():
+        click.echo("Build directory not found. Please run 'pytempl-cli build' first.")
+        return
+
+    server_handler_class = http.server.CGIHTTPRequestHandler
+
+    class DualStackServer(http.server.ThreadingHTTPServer):
+        def server_bind(self):
+            # suppress exception when protocol is IPv4
+            with contextlib.suppress(Exception):
+                self.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+            return super().server_bind()
+
+        def finish_request(self, request, client_address):
+            self.RequestHandlerClass(
+                request, client_address, self, directory=pytempl_config.build_output_dir
+            )
+
+    click.echo("Starting dev server (don't use this in production)...")
+    click.echo("Press Ctrl+C to stop the server.")
+
+    http.server.test(
+        server_handler_class,
+        DualStackServer,
+        port=pytempl_config.run_port,
+        bind=pytempl_config.run_host,
+        protocol="HTTP/1.0",
+    )
 
 
 @click.command()
