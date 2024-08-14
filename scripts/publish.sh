@@ -2,7 +2,7 @@ machine_type=$(uname -s)
 
 if [ "$machine_type" = "Darwin" ]
 then
-    export $(grep -v '^#' .env | xargs -0)
+    export $(grep -v '^#' .env | tr '\n' '\0' | xargs -0)
 else
     export $(grep -v '^#' .env | xargs -d '\n')
 fi
@@ -21,5 +21,3 @@ then
 else
     poetry publish --repository pypi -u $PYPI_TOKEN_USERNAME -p $PYPI_TOKEN_PASSWORD
 fi
-
-

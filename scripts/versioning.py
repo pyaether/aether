@@ -48,7 +48,17 @@ if __name__ == "__main__":
     ap.add_argument(
         "--version-level",
         "-v",
-        choices=["patch", "minor", "major", "repack", ""],
+        choices=[
+            "patch",
+            "minor",
+            "major",
+            "prepatch",
+            "preminor",
+            "premajor",
+            "prerelease",
+            "repack",
+            "",
+        ],
         type=str,
         required=True,
     )
