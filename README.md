@@ -1,7 +1,7 @@
-# Pytempl
+# PyTempl
 
-Build HTML with Python
+Build HTML user interfaces in Python
 
 ## Introduction
 
-Pytempl is a declarative HTML builder for Python that allows you to create components that render fragments of HTML and compose them to create screens, pages, documents, or apps.
+PyTempl is a DSL for writing HTML user interfaces in Python that allows you to create components that create fragments of HTML and compose them to create views, pages, or apps.

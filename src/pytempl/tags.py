@@ -94,6 +94,12 @@ class Caption(BaseWebElement):
     have_children = True
 
 
+# SVG Element
+class Circle(BaseWebElement):
+    tag_name = "circle"
+    have_children = False
+
+
 class Cite(BaseWebElement):
     tag_name = "cite"
     have_children = True
@@ -421,6 +427,12 @@ class P(BaseWebElement):
     have_children = True
 
 
+# SVG Element
+class Path(BaseWebElement):
+    tag_name = "path"
+    have_children = False
+
+
 class Picture(BaseWebElement):
     tag_name = "picture"
     have_children = True
@@ -439,6 +451,12 @@ class Progress(BaseWebElement):
 class Q(BaseWebElement):
     tag_name = "q"
     have_children = True
+
+
+# SVG Element
+class Rect(BaseWebElement):
+    tag_name = "rect"
+    have_children = False
 
 
 class Rp(BaseWebElement):
@@ -546,6 +564,7 @@ class Sup(BaseWebElement):
     have_children = True
 
 
+# SVG Element
 class Svg(BaseWebElement):
     tag_name = "svg"
     have_children = True
