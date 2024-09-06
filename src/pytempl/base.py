@@ -51,13 +51,13 @@ class BaseWebElement:
         if self.have_children:
             yield f"<{self.tag_name}{attribute_string}>"
             for child in self.children:
-                yield from render_element(child, stringify)
+                yield from _render_element(child, stringify)
             yield f"</{self.tag_name}>"
         else:
             yield f"<{self.tag_name}{attribute_string} />"
 
 
-def render_element(element: Any, stringify: bool = True) -> Generator[str, None, None]:
+def _render_element(element: Any, stringify: bool = True) -> Generator[str, None, None]:
     try:
         if isinstance(element, BaseWebElement):
             yield from element.render(stringify=stringify)

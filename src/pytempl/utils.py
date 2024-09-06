@@ -25,16 +25,3 @@ def handle_exception(exception):
         "</pre>"
         f'<script>console.log("Error: {safestring_escape(exception)}")</script>'
     )
-
-
-def html_class_merge(base_html_class_list: str, html_class_list_to_merge: str) -> str:
-    base_html_classes = base_html_class_list.split()
-    base_html_class_prefix = {cls.split("-")[0] for cls in base_html_classes}
-
-    unique_html_classes = [
-        cls
-        for cls in html_class_list_to_merge.split()
-        if cls.split("-")[0] not in base_html_class_prefix
-    ]
-
-    return " ".join(base_html_classes + unique_html_classes)
