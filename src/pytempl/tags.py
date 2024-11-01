@@ -347,6 +347,12 @@ class Li(BaseWebElement):
     have_children = True
 
 
+# SVG Element
+class Line(BaseWebElement):
+    tag_name = "line"
+    have_children = False
+
+
 class Link(BaseWebElement):
     tag_name = "link"
     have_children = False
