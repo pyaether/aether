@@ -8,10 +8,10 @@ def flatten_attributes(attributes: Dict[str, Any]) -> str:
     for key, value in attributes.items():
         if isinstance(value, bool) and key != "value":
             if value is True:
-                attribute_list.append(f"{safestring_escape(key)}")
+                attribute_list.append(f"{safestring_escape(key, True)}")
         else:
             attribute_list.append(
-                f'{safestring_escape(key)}="{safestring_escape(value)}"'
+                f'{safestring_escape(key, True)}="{safestring_escape(value, True)}"'
             )
     return " ".join(attribute_list)
 

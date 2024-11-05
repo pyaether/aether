@@ -24,8 +24,8 @@ def mark_safe(string: str | SafeString) -> str | SafeString:
     return SafeString(string)
 
 
-def safestring_escape(value: Any) -> str | SafeString:
+def safestring_escape(value: Any, escape_quote: bool) -> str | SafeString:
     if hasattr(value, "__html__"):
         return value.__html__()
     else:
-        return mark_safe(escape_html(str(value)))
+        return mark_safe(escape_html(str(value), quote=escape_quote))

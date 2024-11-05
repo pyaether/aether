@@ -10,7 +10,7 @@ class BaseWebElement:
     tag_name: str
     have_children: bool
 
-    def __init__(self, **attributes: Dict[str, Any]) -> None:
+    def __init__(self, escape_quote: bool = True, **attributes: Dict[str, Any]) -> None:
         self.attributes = {
             re.sub(r"^_", "", key).replace("_", "-"): value
             for key, value in attributes.items()
@@ -18,6 +18,8 @@ class BaseWebElement:
         }
         if self.have_children:
             self.children = []
+
+        self.escape_quote = escape_quote
 
     def __call__(self, *children: Tuple) -> Self:
         if self.have_children:
@@ -51,17 +53,19 @@ class BaseWebElement:
         if self.have_children:
             yield f"<{self.tag_name}{attribute_string}>"
             for child in self.children:
-                yield from _render_element(child, stringify)
+                yield from _render_element(child, stringify, self.escape_quote)
             yield f"</{self.tag_name}>"
         else:
             yield f"<{self.tag_name}{attribute_string} />"
 
 
-def _render_element(element: Any, stringify: bool = True) -> Generator[str, None, None]:
+def _render_element(
+    element: Any, stringify: bool = True, escape_quote: bool = True
+) -> Generator[str, None, None]:
     try:
         if isinstance(element, BaseWebElement):
             yield from element.render(stringify=stringify)
         elif element is not None:
-            yield safestring_escape(element) if stringify else element
+            yield safestring_escape(element, escape_quote) if stringify else element
     except (Exception, RuntimeError) as e:
         yield from handle_exception(e)
