@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytempl"
-version = "0.0.1a2"
+version = "0.0.1a3"
 description = "DSL for writing HTML user interfaces in Python."
 authors = ["Saurabh Ghanekar <ghanekarsaurabh8@gmail.com>"]
 license = "BSD-2-Clause"
