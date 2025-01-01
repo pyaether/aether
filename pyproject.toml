@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytempl"
-version = "0.0.1a3"
+version = "0.1.0"
 description = "DSL for writing HTML user interfaces in Python."
 authors = ["Saurabh Ghanekar <ghanekarsaurabh8@gmail.com>"]
 license = "BSD-2-Clause"
@@ -17,6 +17,7 @@ include = ["README.md", "LICENSE.md", "CHANGELOG.md"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+typing-extensions = "^4"
 
 [tool.poetry.group.dev.dependencies]
 rich = "^13.7"
