@@ -1,18 +1,23 @@
 # https://developer.mozilla.org/en-US/docs/Web/SVG
 
-from ._base import BaseSVGElement, SVGAttributes
-from .circle import Circle
-from .line import Line
-from .path import Path
-from .rect import Rect
-from .svg import Svg
+from ._base import BaseSVGAttributes, BaseSVGElement
+from .circle import Circle, CircleAttributes
+from .line import Line, LineAttributes
+from .path import Path, PathAttributes
+from .rect import Rect, RectAttributes
+from .svg import Svg, SvgAttributes
 
 __all__ = [
     "BaseSVGElement",
     "Circle",
+    "CircleAttributes",
     "Line",
+    "LineAttributes",
     "Path",
+    "PathAttributes",
     "Rect",
+    "RectAttributes",
     "Svg",
-    "SVGAttributes",
+    "SvgAttributes",
+    "BaseSVGAttributes",
 ]

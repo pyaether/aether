@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseSVGElement, SVGAttributes
+from ._base import BaseSVGAttributes, BaseSVGElement
 
 try:
     from typing import Unpack
@@ -17,7 +17,7 @@ except ImportError:
     from typing_extensions import Unpack
 
 
-class PathAttributes(SVGAttributes):
+class PathAttributes(BaseSVGAttributes):
     d: str
     pathLength: str | Literal["none"]
 

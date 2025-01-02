@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseSVGElement, SVGAttributes
+from ._base import BaseSVGAttributes, BaseSVGElement
 
 try:
     from typing import Unpack
@@ -17,7 +17,7 @@ except ImportError:
     from typing_extensions import Unpack
 
 
-class LineAttributes(SVGAttributes):
+class LineAttributes(BaseSVGAttributes):
     x1: str
     x2: str
     y1: str

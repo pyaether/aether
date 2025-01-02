@@ -5,5 +5,5 @@ class BaseSVGElement(BaseWebElement):
     web_element_type = WebElementType.SVG
 
 
-class SVGAttributes(BaseAttribute):
+class BaseSVGAttributes(BaseAttribute):
     pass

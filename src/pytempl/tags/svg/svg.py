@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseSVGElement, SVGAttributes
+from ._base import BaseSVGAttributes, BaseSVGElement
 
 try:
     from typing import Unpack
@@ -17,7 +17,7 @@ except ImportError:
     from typing_extensions import Unpack
 
 
-class SvgAttributes(SVGAttributes):
+class SvgAttributes(BaseSVGAttributes):
     height: str
     preserveAspectRatio: str
     viewBox: str | Literal["none"]
