@@ -1,16 +1,30 @@
 import re
 import warnings
-from typing import Any, Dict, Generator, Iterable, Self, Tuple
+from enum import StrEnum
+from typing import Any, Dict, Generator, Iterable, Self, Tuple, TypedDict
+
+from pydantic import ConfigDict
 
 from .safe_string import safestring_escape
 from .utils import flatten_attributes, handle_exception
 
 
+class WebElementType(StrEnum):
+    HTML = "html"
+    SVG = "svg"
+    MATHML = "mathml"
+
+
+class BaseAttribute(TypedDict):
+    __pydantic_config__ = ConfigDict(extra="allow")
+
+
 class BaseWebElement:
+    web_element_type: WebElementType
     tag_name: str
     have_children: bool
 
-    def __init__(self, escape_quote: bool = True, **attributes: Dict[str, Any]) -> None:
+    def __init__(self, escape_quote: bool = True, **attributes: Dict) -> None:
         self.attributes = {
             re.sub(r"^_", "", key).replace("_", "-"): value
             for key, value in attributes.items()
@@ -38,7 +52,7 @@ class BaseWebElement:
                     self.children.extend(child)
         else:
             warnings.warn(
-                f"Trying to add child to a non-child element: {self.__class__.__name__}",
+                f"Trying to add child to a non-child element: {self.__class__.__qualname__}",
                 UserWarning,
                 stacklevel=2,
             )
