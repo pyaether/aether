@@ -6,7 +6,7 @@ def render(root: BaseWebElement) -> str:
     return mark_safe("").join(root.render(stringify=True))
 
 
-__version__ = "0.2.0a5"
+__version__ = "0.2.0a6"
 __all__ = [
     "render",
     "BaseAttribute",
