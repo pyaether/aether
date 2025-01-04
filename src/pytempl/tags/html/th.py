@@ -19,9 +19,9 @@ except ImportError:
 
 class ThAttributes(GlobalHTMLAttributes):
     abbr: NotRequired[str]
-    colspan: int = 1
+    colspan: int
     headers: NotRequired[str]
-    rowspan: int = 1
+    rowspan: int
     scope: NotRequired[Literal["row", "col", "rowgroup", "colgroup"]]
 
     @classmethod

@@ -18,7 +18,7 @@ except ImportError:
 
 
 class ColAttributes(GlobalHTMLAttributes):
-    span: int = 1
+    span: int
 
     @classmethod
     def validate(

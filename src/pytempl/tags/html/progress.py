@@ -18,7 +18,7 @@ except ImportError:
 
 
 class ProgressAttributes(GlobalHTMLAttributes):
-    max: int = 1
+    max: int
     value: NotRequired[int]
 
     @classmethod

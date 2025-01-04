@@ -18,7 +18,7 @@ except ImportError:
 
 
 class MathAttributes(GlobalMathMLAttributes):
-    display: Literal["block", "inline"] = "inline"
+    display: Literal["block", "inline"]
 
     @classmethod
     def validate(

@@ -37,7 +37,7 @@ class VideoAttributes(GlobalHTMLAttributes):
     playsinline: NotRequired[bool]
     poster: NotRequired[str]
     preload: NotRequired[Literal["auto", "metadata", "none"]]
-    src: str | None = None
+    src: str | None
     width: NotRequired[int]
 
     @classmethod

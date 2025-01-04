@@ -66,20 +66,21 @@ class Audio(BaseHTMLElement):
     def __call__(self, *children: str) -> Self:
         has_src_attribute = self.attributes.get("src") is not None
         has_any_source_child_tag = any(isinstance(child, Source) for child in children)
+
+        if not has_src_attribute and not has_any_source_child_tag:
+            raise ValueError(
+                f"Either `src` attribute or `Source` child tag must be provided for `{self.__class__.__qualname__}`."
+            )
+        if has_src_attribute and has_any_source_child_tag:
+            warnings.warn(
+                "Both `src` attribute and `Source` child tag are provided. Ignoring `src` attribute.",
+                UserWarning,
+                stacklevel=2,
+            )
+            self.attributes.pop("src")
+
         allowed_child_types = (A, P, Source, Track)
         if self.have_children:
-            if not has_src_attribute and not has_any_source_child_tag:
-                raise ValueError(
-                    f"Either `src` attribute or `Source` child tag must be provided for `{self.__class__.__qualname__}`."
-                )
-            if has_src_attribute and has_any_source_child_tag:
-                warnings.warn(
-                    "Both `src` attribute and `Source` child tag are provided. Ignoring `src` attribute.",
-                    UserWarning,
-                    stacklevel=2,
-                )
-                self.attributes.pop("src")
-
             for child in children:
                 if (
                     isinstance(child, str)

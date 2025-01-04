@@ -19,8 +19,8 @@ except ImportError:
 
 class MeterAttributes(GlobalHTMLAttributes):
     value: int
-    min: int = 0
-    max: int = 1
+    min: int
+    max: int
     low: NotRequired[int]
     high: NotRequired[int]
     optimum: NotRequired[int]
