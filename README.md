@@ -48,6 +48,21 @@ print(render(Div()(greeting, item_list)))
 
 This demonstrates creating dynamic content and nesting components.  The output will be an HTML `<div>` containing a greeting and the unordered list of fruits.
 
+## Backwards Compatibility Note
+
+This project is under active development and has not yet reached `v1.0.0`. This means that while we are working hard to build the best possible package, we may need to make changes that affect how your code works.
+
+**Version Stability:**
+
+- **Minor Version Updates (e.g., 0.1.x -> 0.2.x)**: These updates **may introduce breaking changes** as we refine and improve the package's functionality and APIs.
+- **Patch Version Updates (e.g., 0.1.1 -> 0.1.2):** These updates will maintain compatibility within the same minor version and generally include bug fixes or small enhancements.
+
+
+To avoid unexpected disruptions, it is recommended to pin your dependency to a specific minor version (v0.x) and carefully review release notes before upgrading to a new minor version.
+
+We appreciate your understanding and welcome feedback as we work towards a stable and robust v1.0.0!
+
+
 ## License
 
 This project is licensed under the [BSD-2-Clause License](LICENCE.md)
