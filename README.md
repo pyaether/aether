@@ -18,7 +18,7 @@ pip install pytempl
 **Simple Example:**
 
 ```python
-from pytempl.tags import H1, Div, P
+from pytempl.tags.html import H1, Div, P
 from pytempl import render
 
 page = Div(_class="container")(
@@ -34,7 +34,7 @@ This will output neatly formatted HTML.
 **Advanced Example: Dynamic Content and Components**
 
 ```python
-from pytempl.tags import Li, Span, Ul
+from pytempl.tags.html import Li, Span, Ul
 from pytempl import render
 
 items = ["apple", "banana", "cherry"]
