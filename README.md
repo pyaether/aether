@@ -31,7 +31,7 @@ print(render(page))
 
 This will output neatly formatted HTML.
 
-**Advanced Example: Dynamic Content and Components**
+**Advanced Example 1: Dynamic Content and Components**
 
 ```python
 from pytempl.tags.html import Li, Span, Ul
@@ -47,6 +47,27 @@ print(render(Div()(greeting, item_list)))
 ```
 
 This demonstrates creating dynamic content and nesting components.  The output will be an HTML `<div>` containing a greeting and the unordered list of fruits.
+
+**Advanced Example 2: HTMX Support**
+
+```python
+from pytempl.tags.html import Div, Button, Img
+from pytempl import render
+
+click_to_load = Div(id="replace_me")(
+    Button(
+        _class="btn primary",
+        hx_get="/example/?data=1",
+        hx_target="#replace_me",
+        hx_swap="outerHTML",
+    )(
+        "Load More Data...",
+        Img(_class="htmx-indicator", src="/img/bars.svg", alt="Loading..."),
+    )
+)
+
+print(render(click_to_load))
+```
 
 ## Backwards Compatibility Note
 
