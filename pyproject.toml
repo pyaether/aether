@@ -19,6 +19,8 @@ include = ["README.md", "LICENSE.md", "CHANGELOG.md"]
 python = "^3.10"
 pydantic = "^2.10"
 typing-extensions = "^4"
+click = "^8.1"
+tomli-w = "^1.2"
 
 [tool.poetry.group.dev.dependencies]
 rich = "^13.7"
