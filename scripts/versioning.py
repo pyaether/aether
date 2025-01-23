@@ -1,13 +1,16 @@
 import re
 from enum import StrEnum
 from pathlib import Path
+from typing import Any
 
 import click
 import tomli
-import tomli_w
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
+from rich.traceback import install
+
+install(extra_lines=0, max_frames=10)
 
 
 class VersionLevel(StrEnum):
@@ -17,6 +20,8 @@ class VersionLevel(StrEnum):
     ALPHA = "alpha"
     BETA = "beta"
     RC = "rc"
+    DEV = "dev"
+    RELEASE = "release"
 
 
 class SupportedBackend(StrEnum):
@@ -56,25 +61,7 @@ def load_config():
         raise RuntimeError("Unable to locate `pyproject.toml` file.")
 
 
-def save_config(version):
-    pyproject_path = Path.cwd() / "pyproject.toml"
-    if pyproject_path.exists():
-        with open(pyproject_path, "wb") as f:
-            pyproject_data = tomli.load(f)
-
-            backend = pyproject_data["tool"]["versioning"]["backend"]
-            match SupportedBackend(backend):
-                case SupportedBackend.POETRY:
-                    pyproject_data["tool"]["poetry"]["version"] = version
-                case SupportedBackend.UV:
-                    pyproject_data["project"]["version"] = version
-
-            tomli_w.dump(pyproject_data, f)
-    else:
-        raise RuntimeError("Unable to locate `pyproject.toml` file.")
-
-
-def parse_version(version) -> dict:
+def parse_version(version) -> dict[str, str | Any]:
     VERSION_PATTERN = re.compile(
         r"^"
         r"(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)"
@@ -89,38 +76,57 @@ def parse_version(version) -> dict:
         return pattern_match.groupdict()
     else:
         raise ValueError(
-            f"Invalid version format {version}. Expected format: MAJOR.MINOR.PATCH[.preTYPE[.preNUM][.post][.dev]]"
+            f"Invalid version format {version}. Expected format: MAJOR.MINOR.PATCH[preTYPE[preNUM][.dev]]"
         )
 
 
-def find_substring_index(strings, substring):
+def find_substring_index(strings: list[str], substring: str) -> int:
     return next(i for i, string in enumerate(strings) if substring in string)
+
+
+def find_variable_and_replace_value_in_file(
+    file_name: str,
+    variable_name: str,
+    new_value: str,
+    dry_run: bool,
+    return_changed_line_number: bool = False,
+) -> None | int:
+    file = Path.cwd() / file_name
+    text = file.read_text().splitlines(keepends=True)
+    line_index = find_substring_index(text, variable_name)
+    text[line_index] = text[line_index].replace(
+        re.search(f"{variable_name}.*$", text[line_index]).group(0),
+        variable_name + " = " + f'"{new_value}"',
+    )
+
+    if not dry_run:
+        file.write_text("".join(text))
+
+    if return_changed_line_number:
+        return line_index + 1
 
 
 def sync_version_in_different_files(
     version, config, dry_run: bool
-) -> list[dict[str, int | Path]]:
+) -> list[dict[str, int | str]]:
     files_synced = []
     if "version_variable" in config:
         for value in config.get("version_variable"):
             file_name = value.split(":")[0]
             variable_name = value.split(":")[1]
 
-            file = Path.cwd() / file_name
-            text = file.read_text().splitlines(keepends=True)
-            line_index = find_substring_index(text, variable_name)
-            text[line_index] = text[line_index].replace(
-                re.search(f"{variable_name}.*$", text[line_index]).group(0),
-                variable_name + " = " + f'"{version}"',
+            line_number = find_variable_and_replace_value_in_file(
+                file_name,
+                variable_name,
+                version,
+                dry_run,
+                return_changed_line_number=True,
             )
-
-            if not dry_run:
-                file.write_text("".join(text))
 
             files_synced.append(
                 {
-                    "file_path": file.relative_to(Path.cwd()),
-                    "line_number": line_index + 1,
+                    "file_path": file_name,
+                    "line_number": line_number,
                 }
             )
 
@@ -151,18 +157,38 @@ def versioning(level: VersionLevel, current_version: str, dry_run: bool) -> str:
             else:
                 pre_num = 1
 
-            new_version = f"{version_parts['major']}.{version_parts['minor']}.{version_parts['patch']}.{pre_type_map[level]}{pre_num}"
+            new_version = f"{version_parts['major']}.{version_parts['minor']}.{version_parts['patch']}{pre_type_map[level]}{pre_num}"
+        case VersionLevel.DEV:
+            if version_parts["pre_type"] and version_parts["pre_num"]:
+                pre_parts = f"{version_parts['pre_type']}{version_parts['pre_num']}"
+            else:
+                pre_parts = ""
+
+            dev_num = int(version_parts["dev"] or 0) + 1
+            new_version = f"{version_parts['major']}.{version_parts['minor']}.{version_parts['patch']}{pre_parts}.dev{dev_num}"
+        case VersionLevel.RELEASE:
+            if (
+                version_parts["pre_type"]
+                or version_parts["pre_num"]
+                or version_parts["dev"]
+            ):
+                new_version = f"{version_parts['major']}.{version_parts['minor']}.{version_parts['patch']}"
+            else:
+                raise ValueError(
+                    f"The project is already on release version {current_version}"
+                )
 
     if not dry_run:
-        save_config(new_version)
+        find_variable_and_replace_value_in_file(
+            "pyproject.toml", "version", new_version, dry_run=False
+        )
 
     return new_version
 
 
 def display_update_summary(
-    console: Console,
-    files_synced: list[dict[str, int | Path]],
-):
+    console: Console, files_synced: list[dict[str, int | str]]
+) -> None:
     grid = Table.grid()
     grid.add_column(justify="center")
 
@@ -203,11 +229,11 @@ def main(level: str, show_summary: bool, dry_run: bool):
 
     if dry_run:
         console.print(
-            f"[yellow]Dry Run[/yellow]: Bumped version: [bold]{current_version}[/bold] :arrow_right: [bold green]{new_version}[/bold green]"
+            f"[yellow]Dry Run[/yellow]: Bumped version: [bold cyan]{current_version}[/bold cyan] :arrow_right: [bold green]{new_version}[/bold green]"
         )
     else:
         console.print(
-            f"Bumped version: [bold]{current_version}[/bold] :arrow_right: [bold green]{new_version}[/bold green]"
+            f"Bumped version: [bold cyan]{current_version}[/bold cyan] :arrow_right: [bold green]{new_version}[/bold green]"
         )
 
     if show_summary:
