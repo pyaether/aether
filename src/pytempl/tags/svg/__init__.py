@@ -2,6 +2,7 @@
 
 from ._base import BaseSVGAttributes, BaseSVGElement
 from .circle import Circle, CircleAttributes
+from .g import G, GAttributes
 from .line import Line, LineAttributes
 from .path import Path, PathAttributes
 from .rect import Rect, RectAttributes
@@ -11,6 +12,8 @@ __all__ = [
     "BaseSVGElement",
     "Circle",
     "CircleAttributes",
+    "G",
+    "GAttributes",
     "Line",
     "LineAttributes",
     "Path",
