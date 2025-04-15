@@ -1,6 +1,6 @@
 [project]
 name = "pytempl"
-version = "0.2.4"
+version = "0.2.5"
 description = "DSL for writing HTML user interfaces in Python."
 authors = [{ name = "Saurabh Ghanekar", email = "ghanekarsaurabh8@gmail.com" }]
 license = "BSD-2-Clause"
