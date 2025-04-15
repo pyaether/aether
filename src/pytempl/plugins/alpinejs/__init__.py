@@ -1,14 +1,15 @@
-from typing import Any, Dict, Mapping, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 
-def python_object_to_alpinejs_x_data(data: Dict[str, Any]) -> str:
+def python_object_to_alpinejs_x_data(data: dict[str, Any]) -> str:
     data_list = []
     for key, value in data.items():
         if isinstance(value, str):
             data_list.append(f"{key}: '{value}'")
         elif isinstance(value, bool):
             data_list.append(f"{key}: {str(value).lower()}")
-        elif isinstance(value, (int, float, Sequence)):
+        elif isinstance(value, int | float | Sequence):
             data_list.append(f"{key}: {value}")
         elif isinstance(value, Mapping):
             data_list.append(f"{key}: {python_object_to_alpinejs_x_data(value)}")
@@ -18,14 +19,14 @@ def python_object_to_alpinejs_x_data(data: Dict[str, Any]) -> str:
     return f"{{{', '.join(data_list)}}}"
 
 
-def python_object_to_alpinejs_x_init(data: Dict[str, Any]) -> str:
+def python_object_to_alpinejs_x_init(data: dict[str, Any]) -> str:
     data_list = []
     for key, value in data.items():
         if isinstance(value, str):
             data_list.append(f"{key} = '{value}'")
         elif isinstance(value, bool):
             data_list.append(f"{key} = {str(value).lower()}")
-        elif isinstance(value, (int, float, Sequence)):
+        elif isinstance(value, int | float | Sequence):
             data_list.append(f"{key} = {value}")
         elif isinstance(value, Mapping):
             data_list.append(f"{key} = {python_object_to_alpinejs_x_data(value)}")

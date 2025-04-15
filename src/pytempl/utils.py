@@ -1,4 +1,5 @@
-from typing import Any, Callable, Dict, List, TypedDict
+from collections.abc import Callable
+from typing import Any, TypedDict
 
 from pydantic import TypeAdapter
 from pydantic import ValidationError as PydanticValidationError
@@ -13,9 +14,9 @@ ValidatorFunction = Callable[
 
 def validate_dictionary_data(
     cls,
-    data: Dict,
-    default_values: Dict | None = None,
-    custom_validators: List[ValidatorFunction] | None = None,
+    data: dict,
+    default_values: dict | None = None,
+    custom_validators: list[ValidatorFunction] | None = None,
 ):
     if default_values:
         data_with_defaults = {**default_values, **data}
@@ -32,7 +33,7 @@ def validate_dictionary_data(
     return validated_data
 
 
-def flatten_attributes(attributes: Dict[str, Any]) -> str:
+def flatten_attributes(attributes: dict[str, Any]) -> str:
     attribute_list = []
     for key, value in attributes.items():
         if isinstance(value, bool) and key != "value":
@@ -58,7 +59,7 @@ def handle_exception(exception):
 
 def format_validation_error_message(error: PydanticValidationError | ValidationError):
     formatted_errors = [
-        f"`{" -> ".join(str(loc) for loc in err["loc"])}`: {err["msg"]}. (type: '{err["type"]}', input_type: '{type(err['input']).__name__}', input_value: '{err['input']}')"
+        f"`{' -> '.join(str(loc) for loc in err['loc'])}`: {err['msg']}. (type: '{err['type']}', input_type: '{type(err['input']).__name__}', input_value: '{err['input']}')"
         for err in error.errors()
     ]
     return "\n".join(formatted_errors)

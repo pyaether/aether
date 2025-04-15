@@ -1,4 +1,4 @@
-from typing import Dict, List, Self
+from typing import Self
 
 from pydantic import ValidationError as PydanticValidationError
 
@@ -21,9 +21,9 @@ class HAttributes(GlobalHTMLAttributes):
     @classmethod
     def validate(
         cls,
-        data: Dict,
-        default_values: Dict | None = None,
-        custom_validators: List[ValidatorFunction] | None = None,
+        data: dict,
+        default_values: dict | None = None,
+        custom_validators: list[ValidatorFunction] | None = None,
     ) -> Self:
         return validate_dictionary_data(cls, data, default_values, custom_validators)
 

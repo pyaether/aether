@@ -1,5 +1,6 @@
 import warnings
-from typing import Dict, Generator, Iterable, List, Literal, NotRequired, Self, Set
+from collections.abc import Generator, Iterable
+from typing import Literal, NotRequired, Self
 
 from pydantic import ValidationError as PydanticValidationError
 
@@ -26,7 +27,7 @@ class VideoAttributes(GlobalHTMLAttributes):
     autoplay: NotRequired[bool]
     controls: NotRequired[bool]
     controlslist: NotRequired[
-        Set[Literal["nodownload", "nofullscreen", "noremoteplayback"]]
+        set[Literal["nodownload", "nofullscreen", "noremoteplayback"]]
     ]
     crossorigin: NotRequired[Literal["anonymous", "use-credentials"]]
     disablepictureinpicture: NotRequired[bool]
@@ -43,14 +44,14 @@ class VideoAttributes(GlobalHTMLAttributes):
     @classmethod
     def validate(
         cls,
-        data: Dict,
-        default_values: Dict | None = None,
-        custom_validators: List[ValidatorFunction] | None = None,
+        data: dict,
+        default_values: dict | None = None,
+        custom_validators: list[ValidatorFunction] | None = None,
     ) -> Self:
         return validate_dictionary_data(cls, data, default_values, custom_validators)
 
     @classmethod
-    def set_defaults(cls) -> Dict:
+    def set_defaults(cls) -> dict:
         return {"src": None}
 
 

@@ -1,4 +1,4 @@
-from typing import Dict, List, NotRequired, Self
+from typing import NotRequired, Self
 
 from pydantic import ValidationError as PydanticValidationError
 
@@ -25,14 +25,14 @@ class TdAttributes(GlobalHTMLAttributes):
     @classmethod
     def validate(
         cls,
-        data: Dict,
-        default_values: Dict | None = None,
-        custom_validators: List[ValidatorFunction] | None = None,
+        data: dict,
+        default_values: dict | None = None,
+        custom_validators: list[ValidatorFunction] | None = None,
     ) -> Self:
         return validate_dictionary_data(cls, data, default_values, custom_validators)
 
     @classmethod
-    def set_defaults(cls) -> Dict:
+    def set_defaults(cls) -> dict:
         return {"colspan": 1, "rowspan": 1}
 
 

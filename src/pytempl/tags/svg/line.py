@@ -1,4 +1,4 @@
-from typing import Dict, List, Literal, Self
+from typing import Literal, Self
 
 from pydantic import ValidationError as PydanticValidationError
 
@@ -27,14 +27,14 @@ class LineAttributes(BaseSVGAttributes):
     @classmethod
     def validate(
         cls,
-        data: Dict,
-        default_values: Dict | None = None,
-        custom_validators: List[ValidatorFunction] | None = None,
+        data: dict,
+        default_values: dict | None = None,
+        custom_validators: list[ValidatorFunction] | None = None,
     ) -> Self:
         return validate_dictionary_data(cls, data, default_values, custom_validators)
 
     @classmethod
-    def set_defaults(cls) -> Dict:
+    def set_defaults(cls) -> dict:
         return {"x1": 0, "x2": 0, "y1": 0, "y2": 0, "pathLength": "none"}
 
 

@@ -1,8 +1,8 @@
-from typing import Any, Tuple
+from typing import Any
 
 
 class ValidationError(Exception):
-    def __init__(self, message: str, expected_type: str, loc: Tuple, input_value: Any):
+    def __init__(self, message: str, expected_type: str, loc: tuple, input_value: Any):
         super().__init__(message)
         self.error_list = [
             {

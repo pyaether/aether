@@ -1,7 +1,8 @@
 import re
 import warnings
+from collections.abc import Generator, Iterable
 from enum import StrEnum
-from typing import Any, Dict, Generator, Iterable, Self, Tuple, TypedDict
+from typing import Any, Self, TypedDict
 
 from pydantic import ConfigDict
 
@@ -24,7 +25,7 @@ class BaseWebElement:
     tag_name: str
     have_children: bool
 
-    def __init__(self, escape_quote: bool = True, **attributes: Dict) -> None:
+    def __init__(self, escape_quote: bool = True, **attributes: dict) -> None:
         self.attributes = {
             re.sub(r"^_", "", key).replace("_", "-"): value
             for key, value in attributes.items()
@@ -35,7 +36,7 @@ class BaseWebElement:
 
         self.escape_quote = escape_quote
 
-    def __call__(self, *children: Tuple) -> Self:
+    def __call__(self, *children: tuple) -> Self:
         if self.have_children:
             for child in children:
                 if (
