@@ -31,6 +31,7 @@ class DdAttributes(GlobalHTMLAttributes):
 class Dd(BaseHTMLElement):
     tag_name = "dd"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[DdAttributes]):
         try:

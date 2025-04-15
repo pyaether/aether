@@ -31,6 +31,7 @@ class TheadAttributes(GlobalHTMLAttributes):
 class Thead(BaseHTMLElement):
     tag_name = "thead"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[TheadAttributes]):
         try:

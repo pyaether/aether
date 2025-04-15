@@ -39,6 +39,7 @@ class SourceAttributes(GlobalHTMLAttributes):
 class Source(BaseHTMLElement):
     tag_name = "source"
     have_children = False
+    content_category = None
 
     def __init__(self, **attributes: Unpack[SourceAttributes]):
         try:

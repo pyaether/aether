@@ -31,6 +31,7 @@ class TfootAttributes(GlobalHTMLAttributes):
 class Tfoot(BaseHTMLElement):
     tag_name = "tfoot"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[TfootAttributes]):
         try:

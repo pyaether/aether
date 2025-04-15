@@ -11,7 +11,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 from .img import Img
 from .source import Source
 
@@ -38,6 +38,11 @@ class PictureAttributes(GlobalHTMLAttributes):
 class Picture(BaseHTMLElement):
     tag_name = "picture"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[PictureAttributes]):
         try:

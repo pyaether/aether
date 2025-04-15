@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -32,6 +32,11 @@ class HAttributes(GlobalHTMLAttributes):
 class H1(BaseHTMLElement):
     tag_name = "h1"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.HEADING,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[HAttributes]):
         try:
@@ -46,6 +51,11 @@ class H1(BaseHTMLElement):
 class H2(BaseHTMLElement):
     tag_name = "h2"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.HEADING,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[HAttributes]):
         try:
@@ -60,6 +70,11 @@ class H2(BaseHTMLElement):
 class H3(BaseHTMLElement):
     tag_name = "h3"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.HEADING,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[HAttributes]):
         try:
@@ -74,6 +89,11 @@ class H3(BaseHTMLElement):
 class H4(BaseHTMLElement):
     tag_name = "h4"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.HEADING,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[HAttributes]):
         try:
@@ -88,6 +108,11 @@ class H4(BaseHTMLElement):
 class H5(BaseHTMLElement):
     tag_name = "h5"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.HEADING,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[HAttributes]):
         try:
@@ -102,6 +127,11 @@ class H5(BaseHTMLElement):
 class H6(BaseHTMLElement):
     tag_name = "h6"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.HEADING,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[HAttributes]):
         try:

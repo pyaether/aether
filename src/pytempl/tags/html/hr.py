@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -31,6 +31,7 @@ class HrAttributes(GlobalHTMLAttributes):
 class Hr(BaseHTMLElement):
     tag_name = "hr"
     have_children = False
+    content_category = (HTMLContentCategories.FLOW,)
 
     def __init__(self, **attributes: Unpack[HrAttributes]):
         try:

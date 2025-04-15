@@ -2,7 +2,7 @@ import re
 import warnings
 from collections.abc import Generator, Iterable
 from enum import StrEnum
-from typing import Any, Self, TypedDict
+from typing import Any, Generic, Self, TypedDict, TypeVar
 
 from pydantic import ConfigDict
 
@@ -20,10 +20,14 @@ class BaseAttribute(TypedDict):
     __pydantic_config__ = ConfigDict(extra="allow")
 
 
-class BaseWebElement:
+T = TypeVar("T")
+
+
+class BaseWebElement(Generic[T]):
     web_element_type: WebElementType
     tag_name: str
     have_children: bool
+    content_category: tuple[T] | None
 
     def __init__(self, escape_quote: bool = True, **attributes: dict) -> None:
         self.attributes = {

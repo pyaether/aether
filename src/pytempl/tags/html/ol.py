@@ -11,7 +11,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 from .li import Li
 from .script import Script
 from .template import Template
@@ -44,6 +44,7 @@ class OlAttributes(GlobalHTMLAttributes):
 class Ol(BaseHTMLElement):
     tag_name = "ol"
     have_children = True
+    content_category = (HTMLContentCategories.FLOW,)
 
     def __init__(self, **attributes: Unpack[OlAttributes]):
         try:
@@ -57,6 +58,10 @@ class Ol(BaseHTMLElement):
 
     def __call__(self, *children: str) -> Self:
         allowed_child_types = (Li, Script, Template)
+        has_any_li_child_tag = any(isinstance(child, Li) for child in children)
+
+        if has_any_li_child_tag:
+            self.content_category += (HTMLContentCategories.PALPABLE,)
 
         if self.have_children:
             for child in children:

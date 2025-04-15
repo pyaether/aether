@@ -34,6 +34,7 @@ class TbodyAttributes(GlobalHTMLAttributes):
 class Tbody(BaseHTMLElement):
     tag_name = "tbody"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[TbodyAttributes]):
         try:

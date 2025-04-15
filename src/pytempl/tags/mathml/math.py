@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseMathMLElement, GlobalMathMLAttributes
+from ._base import BaseMathMLElement, GlobalMathMLAttributes, MathMLContentCategories
 
 try:
     from typing import Unpack
@@ -37,6 +37,7 @@ class MathAttributes(GlobalMathMLAttributes):
 class Math(BaseMathMLElement):
     tag_name = "math"
     have_children = True
+    content_category = (MathMLContentCategories.TOP_LEVEL,)
 
     def __init__(self, **attributes: Unpack[MathAttributes]):
         try:

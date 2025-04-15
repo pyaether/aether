@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -45,11 +45,18 @@ class MetaAttributes(GlobalHTMLAttributes):
 class Meta(BaseHTMLElement):
     tag_name = "meta"
     have_children = False
+    content_category = (HTMLContentCategories.FLOW,)
 
     def __init__(self, **attributes: Unpack[MetaAttributes]):
         try:
             validated_attributes = MetaAttributes.validate(attributes)
         except (ValidationError, PydanticValidationError) as err:
             raise ValueError(format_validation_error_message(err))
+
+        if validated_attributes.get("itemprop"):
+            self.content_category += (
+                HTMLContentCategories.FLOW,
+                HTMLContentCategories.PHRASING,
+            )
 
         super().__init__(**validated_attributes)

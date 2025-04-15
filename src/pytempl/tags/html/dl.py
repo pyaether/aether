@@ -11,7 +11,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 from .dd import Dd
 from .div import Div
 from .dt import Dt
@@ -36,6 +36,10 @@ class DlAttributes(GlobalHTMLAttributes):
 class Dl(BaseHTMLElement):
     tag_name = "dl"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PALPABLE,  # TODO: Revisit this
+    )
 
     def __init__(self, **attributes: Unpack[DlAttributes]):
         try:

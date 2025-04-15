@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -31,6 +31,10 @@ class FooterAttributes(GlobalHTMLAttributes):
 class Footer(BaseHTMLElement):
     tag_name = "footer"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[FooterAttributes]):
         try:

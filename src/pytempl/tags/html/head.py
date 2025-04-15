@@ -31,6 +31,7 @@ class HeadAttributes(GlobalHTMLAttributes):
 class Head(BaseHTMLElement):
     tag_name = "head"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[HeadAttributes]):
         try:

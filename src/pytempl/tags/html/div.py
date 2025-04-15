@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -31,6 +31,10 @@ class DivAttributes(GlobalHTMLAttributes):
 class Div(BaseHTMLElement):
     tag_name = "div"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[DivAttributes]):
         try:

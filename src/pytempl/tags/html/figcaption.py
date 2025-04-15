@@ -31,6 +31,7 @@ class FigcaptionAttributes(GlobalHTMLAttributes):
 class Figcaption(BaseHTMLElement):
     tag_name = "figcaption"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[FigcaptionAttributes]):
         try:

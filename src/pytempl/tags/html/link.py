@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -71,11 +71,18 @@ class LinkAttributes(GlobalHTMLAttributes):
 class Link(BaseHTMLElement):
     tag_name = "link"
     have_children = False
+    content_category = (HTMLContentCategories.METADATA,)
 
     def __init__(self, **attributes: Unpack[LinkAttributes]):
         try:
             validated_attributes = LinkAttributes.validate(attributes)
         except (ValidationError, PydanticValidationError) as err:
             raise ValueError(format_validation_error_message(err))
+
+        if validated_attributes.get("itemprop"):
+            self.content_category += (
+                HTMLContentCategories.FLOW,
+                HTMLContentCategories.PHRASING,
+            )
 
         super().__init__(**validated_attributes)

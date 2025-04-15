@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -36,6 +36,13 @@ class EmbedAttributes(GlobalHTMLAttributes):
 class Embed(BaseHTMLElement):
     tag_name = "embed"
     have_children = False
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.INTERACTIVE,
+        HTMLContentCategories.EMBEDDED,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[EmbedAttributes]):
         try:

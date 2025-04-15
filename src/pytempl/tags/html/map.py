@@ -11,7 +11,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 from .area import Area
 
 try:
@@ -34,6 +34,11 @@ class MapAttributes(GlobalHTMLAttributes):
 class Map(BaseHTMLElement):
     tag_name = "map"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[MapAttributes]):
         try:

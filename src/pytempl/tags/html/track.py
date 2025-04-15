@@ -37,6 +37,7 @@ class TrackAttributes(GlobalHTMLAttributes):
 class Track(BaseHTMLElement):
     tag_name = "track"
     have_children = False
+    content_category = None
 
     def __init__(self, **attributes: Unpack[TrackAttributes]):
         try:

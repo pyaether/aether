@@ -36,6 +36,7 @@ class OptionAttributes(GlobalHTMLAttributes):
 class Option(BaseHTMLElement):
     tag_name = "option"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[OptionAttributes]):
         try:

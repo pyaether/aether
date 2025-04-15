@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -54,6 +54,11 @@ class ScriptAttributes(GlobalHTMLAttributes):
 class Script(BaseHTMLElement):
     tag_name = "script"
     have_children = True
+    content_category = (
+        HTMLContentCategories.METADATA,
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+    )
 
     def __init__(self, **attributes: Unpack[ScriptAttributes]):
         if attributes.get("_defer") and attributes.get("_async"):

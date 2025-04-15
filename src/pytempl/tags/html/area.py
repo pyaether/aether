@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -81,6 +81,10 @@ def _validate_href_alt_conditional(data: AreaAttributes) -> None:
 class Area(BaseHTMLElement):
     tag_name = "area"
     have_children = False
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+    )
 
     def __init__(self, **attributes: Unpack[AreaAttributes]):
         try:

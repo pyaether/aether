@@ -11,7 +11,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 from .caption import Caption
 from .colgroup import Colgroup
 from .tbody import Tbody
@@ -39,6 +39,7 @@ class TableAttributes(GlobalHTMLAttributes):
 class Table(BaseHTMLElement):
     tag_name = "table"
     have_children = True
+    content_category = (HTMLContentCategories.FLOW,)
 
     def __init__(self, **attributes: Unpack[TableAttributes]):
         try:

@@ -37,6 +37,7 @@ class ColAttributes(GlobalHTMLAttributes):
 class Col(BaseHTMLElement):
     tag_name = "col"
     have_children = False
+    content_category = None
 
     def __init__(self, **attributes: Unpack[ColAttributes]):
         try:

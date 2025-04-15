@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -59,11 +59,20 @@ class ImgAttributes(GlobalHTMLAttributes):
 class Img(BaseHTMLElement):
     tag_name = "img"
     have_children = False
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.EMBEDDED,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[ImgAttributes]):
         try:
             validated_attributes = ImgAttributes.validate(attributes)
         except (ValidationError, PydanticValidationError) as err:
             raise ValueError(format_validation_error_message(err))
+
+        if validated_attributes.get("usemap"):
+            self.content_category += (HTMLContentCategories.INTERACTIVE,)
 
         super().__init__(**validated_attributes)

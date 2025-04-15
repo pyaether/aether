@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseSVGAttributes, BaseSVGElement
+from ._base import BaseSVGAttributes, BaseSVGElement, SVGContentCategories
 
 try:
     from typing import Unpack
@@ -38,6 +38,7 @@ class PathAttributes(BaseSVGAttributes):
 class Path(BaseSVGElement):
     tag_name = "path"
     have_children = False
+    content_category = (SVGContentCategories.GRAPHICS, SVGContentCategories.SHAPE)
 
     def __init__(self, **attributes: Unpack[PathAttributes]):
         try:

@@ -11,7 +11,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 from .h import H1, H2, H3, H4, H5, H6
 from .p import P
 
@@ -37,6 +37,11 @@ class HgroupAttributes(GlobalHTMLAttributes):
 class Hgroup(BaseHTMLElement):
     tag_name = "hgroup"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.HEADING,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[HgroupAttributes]):
         try:

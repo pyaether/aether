@@ -11,7 +11,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 from .a import A
 from .p import P
 from .source import Source
@@ -53,6 +53,11 @@ class AudioAttributes(GlobalHTMLAttributes):
 class Audio(BaseHTMLElement):
     tag_name = "audio"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.EMBEDDED,
+    )
 
     def __init__(self, **attributes: Unpack[AudioAttributes]):
         try:
@@ -61,6 +66,12 @@ class Audio(BaseHTMLElement):
             )
         except (ValidationError, PydanticValidationError) as err:
             raise ValueError(format_validation_error_message(err))
+
+        if validated_attributes.get("controls"):
+            self.content_category += (
+                HTMLContentCategories.INTERACTIVE,
+                HTMLContentCategories.PALPABLE,
+            )
 
         super().__init__(**validated_attributes)
 

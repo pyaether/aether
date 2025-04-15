@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -31,6 +31,11 @@ class NoscriptAttributes(GlobalHTMLAttributes):
 class Noscript(BaseHTMLElement):
     tag_name = "noscript"
     have_children = True
+    content_category = (
+        HTMLContentCategories.METADATA,
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+    )
 
     def __init__(self, **attributes: Unpack[NoscriptAttributes]):
         try:

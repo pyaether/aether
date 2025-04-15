@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseSVGAttributes, BaseSVGElement
+from ._base import BaseSVGAttributes, BaseSVGElement, SVGContentCategories
 
 try:
     from typing import Unpack
@@ -41,6 +41,11 @@ class LineAttributes(BaseSVGAttributes):
 class Line(BaseSVGElement):
     tag_name = "line"
     have_children = False
+    content_category = (
+        SVGContentCategories.BASIC,
+        SVGContentCategories.GRAPHICS,
+        SVGContentCategories.SHAPE,
+    )
 
     def __init__(self, **attributes: Unpack[LineAttributes]):
         try:

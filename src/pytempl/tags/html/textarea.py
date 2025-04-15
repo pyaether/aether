@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -47,6 +47,12 @@ class TextareaAttributes(GlobalHTMLAttributes):
 class Textarea(BaseHTMLElement):
     tag_name = "textarea"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.INTERACTIVE,
+        HTMLContentCategories.FORM_ASSOCIATED,
+    )
 
     def __init__(self, **attributes: Unpack[TextareaAttributes]):
         try:

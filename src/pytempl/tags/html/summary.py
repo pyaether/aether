@@ -31,6 +31,7 @@ class SummaryAttributes(GlobalHTMLAttributes):
 class Summary(BaseHTMLElement):
     tag_name = "summary"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[SummaryAttributes]):
         try:

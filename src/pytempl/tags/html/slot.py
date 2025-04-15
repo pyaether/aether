@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -33,6 +33,7 @@ class SlotAttributes(GlobalHTMLAttributes):
 class Slot(BaseHTMLElement):
     tag_name = "slot"
     have_children = True
+    content_category = (HTMLContentCategories.FLOW, HTMLContentCategories.PHRASING)
 
     def __init__(self, **attributes: Unpack[SlotAttributes]):
         try:

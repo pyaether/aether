@@ -41,6 +41,7 @@ class ThAttributes(GlobalHTMLAttributes):
 class Th(BaseHTMLElement):
     tag_name = "th"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[ThAttributes]):
         try:

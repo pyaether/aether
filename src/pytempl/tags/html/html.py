@@ -39,6 +39,7 @@ class HtmlAttributes(GlobalHTMLAttributes):
 class Html(BaseHTMLElement):
     tag_name = "html"
     have_children = True
+    content_category = None
 
     def __init__(
         self, doctype_value: str = "html", **attributes: Unpack[HtmlAttributes]

@@ -33,6 +33,7 @@ class LiAttributes(GlobalHTMLAttributes):
 class Li(BaseHTMLElement):
     tag_name = "li"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[LiAttributes]):
         try:

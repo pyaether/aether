@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -36,6 +36,7 @@ class StyleAttributes(GlobalHTMLAttributes):
 class Style(BaseHTMLElement):
     tag_name = "style"
     have_children = True
+    content_category = (HTMLContentCategories.METADATA,)
 
     def __init__(self, **attributes: Unpack[StyleAttributes]):
         try:

@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseSVGAttributes, BaseSVGElement
+from ._base import BaseSVGAttributes, BaseSVGElement, SVGContentCategories
 
 try:
     from typing import Unpack
@@ -38,6 +38,11 @@ class PolygonAttributes(BaseSVGAttributes):
 class Polygon(BaseSVGElement):
     tag_name = "polygon"
     have_children = False
+    content_category = (
+        SVGContentCategories.BASIC,
+        SVGContentCategories.GRAPHICS,
+        SVGContentCategories.SHAPE,
+    )
 
     def __init__(self, **attributes: Unpack[PolygonAttributes]):
         try:

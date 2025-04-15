@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -31,6 +31,10 @@ class WbrAttributes(GlobalHTMLAttributes):
 class Wbr(BaseHTMLElement):
     tag_name = "wbr"
     have_children = False
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+    )
 
     def __init__(self, **attributes: Unpack[WbrAttributes]):
         try:

@@ -37,6 +37,7 @@ class OptgroupAttributes(GlobalHTMLAttributes):
 class Optgroup(BaseHTMLElement):
     tag_name = "optgroup"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[OptgroupAttributes]):
         try:

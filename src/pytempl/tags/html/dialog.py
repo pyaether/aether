@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -33,6 +33,10 @@ class DialogAttributes(GlobalHTMLAttributes):
 class Dialog(BaseHTMLElement):
     tag_name = "dialog"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.SECTIONING,
+    )
 
     def __init__(self, **attributes: Unpack[DialogAttributes]):
         if attributes.get("tabindex") is not None:

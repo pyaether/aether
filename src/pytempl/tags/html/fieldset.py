@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -35,6 +35,12 @@ class FieldsetAttributes(GlobalHTMLAttributes):
 class Fieldset(BaseHTMLElement):
     tag_name = "fieldset"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.SECTIONING,
+        HTMLContentCategories.FORM_ASSOCIATED,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[FieldsetAttributes]):
         try:

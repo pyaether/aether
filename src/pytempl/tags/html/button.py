@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -101,6 +101,13 @@ def _validate_form_conditional(data: ButtonAttributes) -> None:
 class Button(BaseHTMLElement):
     tag_name = "button"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.INTERACTIVE,
+        HTMLContentCategories.FORM_ASSOCIATED,
+        HTMLContentCategories.PALPABLE,
+    )
 
     def __init__(self, **attributes: Unpack[ButtonAttributes]):
         try:

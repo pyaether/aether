@@ -31,6 +31,7 @@ class TrAttributes(GlobalHTMLAttributes):
 class Tr(BaseHTMLElement):
     tag_name = "tr"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[TrAttributes]):
         try:

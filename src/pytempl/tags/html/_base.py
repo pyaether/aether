@@ -1,9 +1,24 @@
+from enum import StrEnum
 from typing import Literal, NotRequired
 
 from pytempl.base import BaseAttribute, BaseWebElement, WebElementType
 
 
-class BaseHTMLElement(BaseWebElement):
+class HTMLContentCategories(StrEnum):
+    METADATA = "metadata"
+    FLOW = "flow"
+    SECTIONING = "sectioning"
+    HEADING = "heading"
+    PHRASING = "phrasing"
+    EMBEDDED = "embedded"
+    INTERACTIVE = "interactive"
+    PALPABLE = "palpable"
+    SCRIPT_SUPPORTING = "script_supporting"
+    FORM_ASSOCIATED = "form_associated"
+    TRANSPARENT = "transparent"
+
+
+class BaseHTMLElement(BaseWebElement[HTMLContentCategories]):
     web_element_type = WebElementType.HTML
 
 

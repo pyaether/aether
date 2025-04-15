@@ -31,6 +31,7 @@ class LegendAttributes(GlobalHTMLAttributes):
 class Legend(BaseHTMLElement):
     tag_name = "legend"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[LegendAttributes]):
         try:

@@ -9,7 +9,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 
 try:
     from typing import Unpack
@@ -65,6 +65,11 @@ class InputAttributes(GlobalHTMLAttributes):
 class Input(BaseHTMLElement):
     tag_name = "input"
     have_children = False
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.FORM_ASSOCIATED,
+    )
 
     def __init__(self, **attributes: Unpack[InputAttributes]):
         try:
@@ -73,5 +78,8 @@ class Input(BaseHTMLElement):
             )
         except (ValidationError, PydanticValidationError) as err:
             raise ValueError(format_validation_error_message(err))
+
+        if validated_attributes.get("type") != "hidden":
+            self.content_category += (HTMLContentCategories.PALPABLE,)
 
         super().__init__(**validated_attributes)

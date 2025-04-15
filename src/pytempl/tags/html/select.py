@@ -11,7 +11,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 from .hr import Hr
 from .optgroup import Optgroup
 from .option import Option
@@ -44,6 +44,12 @@ class SelectAttributes(GlobalHTMLAttributes):
 class Select(BaseHTMLElement):
     tag_name = "select"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.INTERACTIVE,
+        HTMLContentCategories.FORM_ASSOCIATED,
+    )
 
     def __init__(self, **attributes: Unpack[SelectAttributes]):
         try:

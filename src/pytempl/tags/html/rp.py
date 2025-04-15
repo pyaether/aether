@@ -31,6 +31,7 @@ class RpAttributes(GlobalHTMLAttributes):
 class Rp(BaseHTMLElement):
     tag_name = "rp"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[RpAttributes]):
         try:

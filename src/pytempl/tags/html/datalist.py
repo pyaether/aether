@@ -11,7 +11,7 @@ from pytempl.utils import (
     validate_dictionary_data,
 )
 
-from ._base import BaseHTMLElement, GlobalHTMLAttributes
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
 from .option import Option
 
 try:
@@ -36,6 +36,10 @@ class DatalistAttributes(GlobalHTMLAttributes):
 class Datalist(BaseHTMLElement):
     tag_name = "datalist"
     have_children = True
+    content_category = (
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+    )
 
     def __init__(self, **attributes: Unpack[DatalistAttributes]):
         try:

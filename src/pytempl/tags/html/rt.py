@@ -31,6 +31,7 @@ class RtAttributes(GlobalHTMLAttributes):
 class Rt(BaseHTMLElement):
     tag_name = "rt"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[RtAttributes]):
         try:

@@ -31,6 +31,7 @@ class CaptionAttributes(GlobalHTMLAttributes):
 class Caption(BaseHTMLElement):
     tag_name = "caption"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[CaptionAttributes]):
         try:

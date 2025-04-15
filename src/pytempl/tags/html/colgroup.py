@@ -36,6 +36,7 @@ class ColgroupAttributes(GlobalHTMLAttributes):
 class Colgroup(BaseHTMLElement):
     tag_name = "colgroup"
     have_children = True
+    content_category = None
 
     def __init__(self, **attributes: Unpack[ColgroupAttributes]):
         try:
@@ -53,7 +54,7 @@ class Colgroup(BaseHTMLElement):
         if self.have_children:
             if has_span_attribute and has_any_col_child_tag:
                 warnings.warn(
-                    "Both `src` attribute and `source` child tag are provided. Ignoring `src` attribute.",
+                    "`span` attribute is not permitted if there are one or more `col` child tags are provided. Ignoring `span` attribute.",
                     UserWarning,
                     stacklevel=2,
                 )
