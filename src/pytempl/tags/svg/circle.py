@@ -34,7 +34,7 @@ class CircleAttributes(BaseSVGAttributes):
 
     @classmethod
     def set_defaults(cls) -> dict:
-        return {"cx": 0, "cy": 0, "r": 0, "pathLength": "none"}
+        return {"cx": "0", "cy": "0", "r": "0", "pathLength": "none"}
 
 
 class Circle(BaseSVGElement):

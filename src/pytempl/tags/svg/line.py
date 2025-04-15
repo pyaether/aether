@@ -35,7 +35,7 @@ class LineAttributes(BaseSVGAttributes):
 
     @classmethod
     def set_defaults(cls) -> dict:
-        return {"x1": 0, "x2": 0, "y1": 0, "y2": 0, "pathLength": "none"}
+        return {"x1": "0", "x2": "0", "y1": "0", "y2": "0", "pathLength": "none"}
 
 
 class Line(BaseSVGElement):

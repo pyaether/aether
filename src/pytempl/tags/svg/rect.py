@@ -38,8 +38,8 @@ class RectAttributes(BaseSVGAttributes):
     @classmethod
     def set_defaults(cls) -> dict:
         return {
-            "x": 0,
-            "y": 0,
+            "x": "0",
+            "y": "0",
             "width": "auto",
             "height": "auto",
             "rx": "auto",
