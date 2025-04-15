@@ -1,2 +1,2 @@
 rm -r dist
-poetry build
+uv build

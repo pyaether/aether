@@ -1,23 +1,19 @@
 machine_type=$(uname -s)
 
-if [ "$machine_type" = "Darwin" ]
-then
+if [ "$machine_type" = "Darwin" ]; then
     export $(grep -v '^#' .env | tr '\n' '\0' | xargs -0)
 else
     export $(grep -v '^#' .env | xargs -d '\n')
 fi
 
-
-while getopts r: flag
-do
+while getopts i: flag; do
     case "${flag}" in
-        r) repository=${OPTARG};;
+    i) index=${OPTARG} ;;
     esac
 done
 
-if [ "$repository" = "test" ]
-then
-    poetry publish --repository testpypi -u $TEST_PYPI_TOKEN_USERNAME -p $TEST_PYPI_TOKEN_PASSWORD
+if [ "$index" = "test" ]; then
+    uv publish --index testpypi --username $TEST_PYPI_TOKEN_USERNAME --password $TEST_PYPI_TOKEN_PASSWORD
 else
-    poetry publish --repository pypi -u $PYPI_TOKEN_USERNAME -p $PYPI_TOKEN_PASSWORD
+    uv publish --username $PYPI_TOKEN_USERNAME --password $PYPI_TOKEN_PASSWORD
 fi

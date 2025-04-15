@@ -1,36 +1,40 @@
-[tool.poetry]
+[project]
 name = "pytempl"
 version = "0.2.3"
 description = "DSL for writing HTML user interfaces in Python."
-authors = ["Saurabh Ghanekar <ghanekarsaurabh8@gmail.com>"]
+authors = [{ name = "Saurabh Ghanekar", email = "ghanekarsaurabh8@gmail.com" }]
 license = "BSD-2-Clause"
+license-files = ["LICENSE"]
 readme = "README.md"
-homepage = "https://github.com/pytempl/pytempl"
-repository = "https://github.com/pytempl/pytempl"
-documentation = "https://github.com/pytempl/pytempl"
+urls = { homepage = "https://github.com/aether-py/pytempl", repository = "https://github.com/aether-py/pytempl", documentation = "https://github.com/aether-py/pytempl" }
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-packages = [{ include = "pytempl", from = "src" }]
-include = ["README.md", "LICENSE.md", "CHANGELOG.md"]
-
-[tool.poetry.dependencies]
-python = "^3.10"
-pydantic = "^2.10"
-typing-extensions = "^4"
-
-[tool.poetry.group.dev.dependencies]
-rich = "^13.7"
-black = "^24.8"
-ruff = "^0.5"
-pre-commit = "^3.8"
-tomli = "^2.0"
-click = "^8.1"
+dependencies = ["pydantic>=2.10", "typing-extensions>=4"]
 
 
-[tool.black]
-line-length = 88
+[dependency-groups]
+dev = [
+    "click>=8.1",
+    "pre-commit>=4.0",
+    "rich>=13.9",
+    "ruff>=0.9",
+    "tomli>=2.2; python_version < '3.11'", # Note: Remove this when the 'requires-python' becomes ">=3.11" 
+]
+test = ["pytest>=8.3", "pytest-cov>=6.0"]
+
+
+[tool.uv]
+default-groups = ["dev", "test"]
+
+
+[[tool.uv.index]]
+explicit = true
+name = "testpypi"
+publish-url = "https://test.pypi.org/legacy"
+url = "https://test.pypi.org/simple"
 
 
 [tool.ruff]
@@ -62,13 +66,12 @@ convention = "google"
 
 
 [tool.versioning]
-backend = "poetry"
-
+backend = "uv"
 
 [tool.versioning.files]
 version_variable = ["src/pytempl/__init__.py:__version__"]
 
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
