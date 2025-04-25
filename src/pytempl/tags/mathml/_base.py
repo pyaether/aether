@@ -6,7 +6,7 @@ from pytempl.base import BaseAttribute, BaseWebElement, WebElementType
 
 class MathMLContentCategories(StrEnum):
     TOP_LEVEL = "top_level"
-    TOKEN = "token"
+    TOKEN = "token"  # noqa: S105
     GENERAL = "general"
     SCRIPT_AND_LIMIT = "script_and_limit"
     TABULAR = "tabular"

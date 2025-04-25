@@ -337,7 +337,7 @@ wheels = [
 
 [[package]]
 name = "pytempl"
-version = "0.2.3"
+version = "0.2.7"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
