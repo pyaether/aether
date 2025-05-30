@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Self
 
 from pydantic import ValidationError as PydanticValidationError
 
@@ -22,7 +22,7 @@ class LineAttributes(BaseSVGAttributes):
     x2: str
     y1: str
     y2: str
-    pathLength: str | Literal["none"]
+    pathLength: str
 
     @classmethod
     def validate(
@@ -35,7 +35,7 @@ class LineAttributes(BaseSVGAttributes):
 
     @classmethod
     def set_defaults(cls) -> dict:
-        return {"x1": "0", "x2": "0", "y1": "0", "y2": "0", "pathLength": "none"}
+        return {"x1": "0", "x2": "0", "y1": "0", "y2": "0", "pathLength": ""}
 
 
 class Line(BaseSVGElement):

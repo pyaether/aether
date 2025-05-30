@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Self
 
 from pydantic import ValidationError as PydanticValidationError
 
@@ -21,7 +21,7 @@ class CircleAttributes(BaseSVGAttributes):
     cx: str
     cy: str
     r: str
-    pathLength: str | Literal["none"]
+    pathLength: str
 
     @classmethod
     def validate(
@@ -34,7 +34,7 @@ class CircleAttributes(BaseSVGAttributes):
 
     @classmethod
     def set_defaults(cls) -> dict:
-        return {"cx": "0", "cy": "0", "r": "0", "pathLength": "none"}
+        return {"cx": "0", "cy": "0", "r": "0", "pathLength": ""}
 
 
 class Circle(BaseSVGElement):

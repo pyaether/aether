@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Self
 
 from pydantic import ValidationError as PydanticValidationError
 
@@ -24,7 +24,7 @@ class RectAttributes(BaseSVGAttributes):
     height: str
     rx: str
     ry: str
-    pathLength: str | Literal["none"]
+    pathLength: str
 
     @classmethod
     def validate(
@@ -44,7 +44,7 @@ class RectAttributes(BaseSVGAttributes):
             "height": "auto",
             "rx": "auto",
             "ry": "auto",
-            "pathLength": "none",
+            "pathLength": "",
         }
 
 

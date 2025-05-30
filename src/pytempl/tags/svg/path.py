@@ -1,4 +1,4 @@
-from typing import Literal, Self
+from typing import Self
 
 from pydantic import ValidationError as PydanticValidationError
 
@@ -19,7 +19,7 @@ except ImportError:
 
 class PathAttributes(BaseSVGAttributes):
     d: str
-    pathLength: str | Literal["none"]
+    pathLength: str
 
     @classmethod
     def validate(
@@ -32,7 +32,7 @@ class PathAttributes(BaseSVGAttributes):
 
     @classmethod
     def set_defaults(cls) -> dict:
-        return {"d": "", "pathLength": "none"}
+        return {"d": "", "pathLength": ""}
 
 
 class Path(BaseSVGElement):
