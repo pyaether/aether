@@ -83,7 +83,7 @@ class Video(BaseHTMLElement):
     def __call__(self, *children: str) -> Self:
         has_src_attribute = self.attributes.get("src") is not None
         has_any_source_child_tag = any(isinstance(child, Source) for child in children)
-        allowed_child_types = (A, P, Source, Track)
+        allowed_child_types = (str, A, P, Source, Track)
         if self.have_children:
             if not has_src_attribute and not has_any_source_child_tag:
                 raise ValueError(
@@ -98,10 +98,8 @@ class Video(BaseHTMLElement):
                 self.attributes.pop("src")
 
             for child in children:
-                if (
-                    isinstance(child, str)
-                    or isinstance(child, allowed_child_types)
-                    or not isinstance(child, Iterable)
+                if isinstance(child, allowed_child_types) or not isinstance(
+                    child, Iterable
                 ):
                     self.children.append(child)
                 elif isinstance(child, Generator):

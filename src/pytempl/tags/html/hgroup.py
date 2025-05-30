@@ -52,14 +52,12 @@ class Hgroup(BaseHTMLElement):
         super().__init__(**validated_attributes)
 
     def __call__(self, *children: str) -> Self:
-        allowed_child_types = (P, H1, H2, H3, H4, H5, H6)
+        allowed_child_types = (str, P, H1, H2, H3, H4, H5, H6)
 
         if self.have_children:
             for child in children:
-                if (
-                    isinstance(child, str)
-                    or isinstance(child, allowed_child_types)
-                    or not isinstance(child, Iterable)
+                if isinstance(child, allowed_child_types) or not isinstance(
+                    child, Iterable
                 ):
                     self.children.append(child)
                 elif isinstance(child, Generator):

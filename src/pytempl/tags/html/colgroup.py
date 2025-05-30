@@ -49,7 +49,7 @@ class Colgroup(BaseHTMLElement):
     def __call__(self, *children: str) -> Self:
         has_span_attribute = self.attributes.get("span") is not None
         has_any_col_child_tag = any(isinstance(child, Col) for child in children)
-        allowed_child_types = (Col,)
+        allowed_child_types = (str, Col)
 
         if self.have_children:
             if has_span_attribute and has_any_col_child_tag:
@@ -60,10 +60,8 @@ class Colgroup(BaseHTMLElement):
                 )
                 self.attributes.pop("span")
             for child in children:
-                if (
-                    isinstance(child, str)
-                    or isinstance(child, allowed_child_types)
-                    or not isinstance(child, Iterable)
+                if isinstance(child, allowed_child_types) or not isinstance(
+                    child, Iterable
                 ):
                     self.children.append(child)
                 elif isinstance(child, Generator):

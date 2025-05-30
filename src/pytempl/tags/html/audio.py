@@ -91,13 +91,11 @@ class Audio(BaseHTMLElement):
             )
             self.attributes.pop("src")
 
-        allowed_child_types = (A, P, Source, Track)
+        allowed_child_types = (str, A, P, Source, Track)
         if self.have_children:
             for child in children:
-                if (
-                    isinstance(child, str)
-                    or isinstance(child, allowed_child_types)
-                    or not isinstance(child, Iterable)
+                if isinstance(child, allowed_child_types) or not isinstance(
+                    child, Iterable
                 ):
                     self.children.append(child)
                 elif isinstance(child, Generator):

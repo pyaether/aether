@@ -53,7 +53,7 @@ class Picture(BaseHTMLElement):
         super().__init__(**validated_attributes)
 
     def __call__(self, *children: str) -> Self:
-        allowed_child_types = (Img, Source)
+        allowed_child_types = (str, Img, Source)
         count_img_child_tags = [isinstance(child, Img) for child in children].count(
             True
         )
@@ -69,10 +69,8 @@ class Picture(BaseHTMLElement):
         else:
             if self.have_children:
                 for child in children:
-                    if (
-                        isinstance(child, str)
-                        or isinstance(child, allowed_child_types)
-                        or not isinstance(child, Iterable)
+                    if isinstance(child, allowed_child_types) or not isinstance(
+                        child, Iterable
                     ):
                         self.children.append(child)
                     elif isinstance(child, Generator):

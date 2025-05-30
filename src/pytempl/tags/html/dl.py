@@ -50,14 +50,12 @@ class Dl(BaseHTMLElement):
         super().__init__(**validated_attributes)
 
     def __call__(self, *children: str) -> Self:
-        allowed_child_types = (Dd, Dt, Div)
+        allowed_child_types = (str, Dd, Dt, Div)
 
         if self.have_children:
             for child in children:
-                if (
-                    isinstance(child, str)
-                    or isinstance(child, allowed_child_types)
-                    or not isinstance(child, Iterable)
+                if isinstance(child, allowed_child_types) or not isinstance(
+                    child, Iterable
                 ):
                     self.children.append(child)
                 elif isinstance(child, Generator):

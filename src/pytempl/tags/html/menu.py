@@ -47,7 +47,7 @@ class Menu(BaseHTMLElement):
         super().__init__(**validated_attributes)
 
     def __call__(self, *children: str) -> Self:
-        allowed_child_types = (Li, Script, Template)
+        allowed_child_types = (str, Li, Script, Template)
         has_any_li_child_tag = any(isinstance(child, Li) for child in children)
 
         if has_any_li_child_tag:
@@ -55,10 +55,8 @@ class Menu(BaseHTMLElement):
 
         if self.have_children:
             for child in children:
-                if (
-                    isinstance(child, str)
-                    or isinstance(child, allowed_child_types)
-                    or not isinstance(child, Iterable)
+                if isinstance(child, allowed_child_types) or not isinstance(
+                    child, Iterable
                 ):
                     self.children.append(child)
                 elif isinstance(child, Generator):
