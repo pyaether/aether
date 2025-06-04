@@ -1,0 +1,51 @@
+from typing import Literal, NotRequired, Self
+
+from pydantic import ValidationError as PydanticValidationError
+
+from aether.errors import ValidationError
+from aether.utils import (
+    ValidatorFunction,
+    format_validation_error_message,
+    validate_dictionary_data,
+)
+
+from ._base import BaseHTMLElement, GlobalHTMLAttributes, HTMLContentCategories
+
+try:
+    from typing import Unpack
+except ImportError:
+    from typing_extensions import Unpack
+
+
+class TemplateAttributes(GlobalHTMLAttributes):
+    shadowrootmode: NotRequired[Literal["open", "closed"]]
+    shadowrootclonable: NotRequired[bool]
+    shadowrootdelegatesfocus: NotRequired[bool]
+
+    @classmethod
+    def validate(
+        cls,
+        data: dict,
+        default_values: dict | None = None,
+        custom_validators: list[ValidatorFunction] | None = None,
+    ) -> Self:
+        return validate_dictionary_data(cls, data, default_values, custom_validators)
+
+
+class Template(BaseHTMLElement):
+    tag_name = "template"
+    have_children = True
+    content_category = (
+        HTMLContentCategories.METADATA,
+        HTMLContentCategories.FLOW,
+        HTMLContentCategories.PHRASING,
+        HTMLContentCategories.SCRIPT_SUPPORTING,
+    )
+
+    def __init__(self, **attributes: Unpack[TemplateAttributes]):
+        try:
+            validated_attributes = TemplateAttributes.validate(attributes)
+        except (ValidationError, PydanticValidationError) as err:
+            raise ValueError(format_validation_error_message(err))
+
+        super().__init__(**validated_attributes)

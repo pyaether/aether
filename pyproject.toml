@@ -1,12 +1,12 @@
 [project]
-name = "pytempl"
-version = "0.2.10"
+name = "pyaether"
+version = "0.3.0"
 description = "DSL for writing HTML user interfaces in Python."
 authors = [{ name = "Saurabh Ghanekar", email = "ghanekarsaurabh8@gmail.com" }]
 license = "BSD-2-Clause"
 license-files = ["LICENSE"]
 readme = "README.md"
-urls = { homepage = "https://github.com/aether-py/pytempl", repository = "https://github.com/aether-py/pytempl", documentation = "https://github.com/aether-py/pytempl" }
+urls = { homepage = "https://github.com/pyaether/aether", repository = "https://github.com/pyaether/aether", documentation = "https://github.com/pyaether/aether" }
 requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -70,8 +70,10 @@ convention = "google"
 backend = "uv"
 
 [tool.versioning.files]
-version_variable = ["src/pytempl/__init__.py:__version__"]
+version_variable = ["src/aether/__init__.py:__version__"]
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/aether"]
 
 [build-system]
 requires = ["hatchling"]
