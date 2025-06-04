@@ -1,6 +1,6 @@
 [project]
 name = "pyaether"
-version = "0.2.10"
+version = "0.3.0"
 description = "DSL for writing HTML user interfaces in Python."
 authors = [{ name = "Saurabh Ghanekar", email = "ghanekarsaurabh8@gmail.com" }]
 license = "BSD-2-Clause"
@@ -72,9 +72,8 @@ backend = "uv"
 [tool.versioning.files]
 version_variable = ["src/aether/__init__.py:__version__"]
 
-
-[tool.hatch.build]
-include = ["aether"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/aether"]
 
 [build-system]
 requires = ["hatchling"]

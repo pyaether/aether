@@ -1,6 +1,6 @@
 ---
 name: 💡 Feature Request
-about: Suggest an idea for Pytempl
+about: Suggest an idea for Aether
 labels: feature-request
 assignees: ""
 ---

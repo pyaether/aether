@@ -38,7 +38,7 @@ Please describe any other information you want to share.
 
 **Dev Environment Information**
 
-Please provide some basic information about your dev environment (Python version, Pytempl Version, OS, etc.).
+Please provide some basic information about your dev environment (Python version, Aether Version, OS, etc.).
 
 ```console
 <paste here>

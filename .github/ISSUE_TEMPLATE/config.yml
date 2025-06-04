@@ -1,6 +1,6 @@
 blank_issues_enabled: false
 contact_links:
   - name: ❓ Usage question
-    url: https://github.com/pydata/xarray/discussions
+    url: https://github.com/orgs/pyaether/discussions
     about: |
       Ask questions and discuss with other community members here.

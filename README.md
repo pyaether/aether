@@ -1,10 +1,10 @@
-# PyTempl
+# Aether
 
 Build HTML user interfaces in Python.
 
 ## Introduction
 
-PyTempl is a DSL that lets you build HTML components as Python objects, offering a clean, component-based approach that avoids the complexities of traditional templating engines. Create reusable components that generate HTML fragments to build complex views, pages, or even entire web applications, all within your Python workflow.
+Aether is a DSL that lets you build HTML components as Python objects, offering a clean, component-based approach that avoids the complexities of traditional templating engines. Create reusable components that generate HTML fragments to build complex views, pages, or even entire web applications, all within your Python workflow.
 
 
 ## Getting Started
@@ -12,14 +12,14 @@ PyTempl is a DSL that lets you build HTML components as Python objects, offering
 **Installation:**
 
 ```bash
-pip install pytempl  
+pip install pyaether  
 ```
 
 **Simple Example:**
 
 ```python
-from pytempl.tags.html import H1, Div, P
-from pytempl import render
+from aether.tags.html import H1, Div, P
+from aether import render
 
 page = Div(_class="container")(
     H1()("My Awesome Page"),
@@ -34,8 +34,8 @@ This will output neatly formatted HTML.
 **Advanced Example 1: Dynamic Content and Components**
 
 ```python
-from pytempl.tags.html import Li, Span, Ul
-from pytempl import render
+from aether.tags.html import Li, Span, Ul
+from aether import render
 
 items = ["apple", "banana", "cherry"]
 item_list = Ul()(Li()(item) for item in items)
@@ -51,8 +51,8 @@ This demonstrates creating dynamic content and nesting components.  The output w
 **Advanced Example 2: HTMX Support**
 
 ```python
-from pytempl.tags.html import Div, Button, Img
-from pytempl import render
+from aether.tags.html import Div, Button, Img
+from aether import render
 
 click_to_load = Div(id="replace_me")(
     Button(
