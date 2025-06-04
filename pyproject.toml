@@ -6,7 +6,7 @@ authors = [{ name = "Saurabh Ghanekar", email = "ghanekarsaurabh8@gmail.com" }]
 license = "BSD-2-Clause"
 license-files = ["LICENSE"]
 readme = "README.md"
-urls = { homepage = "https://github.com/pyaether/pyaether", repository = "https://github.com/pyaether/pyaether", documentation = "https://github.com/pyaether/pyaether" }
+urls = { homepage = "https://github.com/pyaether/aether", repository = "https://github.com/pyaether/aether", documentation = "https://github.com/pyaether/aether" }
 requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
