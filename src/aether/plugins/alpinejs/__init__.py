@@ -50,6 +50,7 @@ class AlpineValidationTrigger(StrEnum):
     ON_BLUR = "@blur"
     ON_CHANGE = "@change"
     ON_EFFECT = "x-effect"
+    ON_INPUT = "@input"
 
 
 class _AlpineHookFormValidator(TypedDict):
