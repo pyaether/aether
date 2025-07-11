@@ -88,7 +88,7 @@ def tw_merge(*tw_classes: str) -> str:
             sorted_prefix_list=_PREFIX_LIST,
         )
         if signature not in seen_signatures:
-            merged_tw_classes.append(tw_merge)
+            merged_tw_classes.append(tw_class)
             seen_signatures.add(signature)
 
     return " ".join(reversed(merged_tw_classes))
