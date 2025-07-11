@@ -6,7 +6,16 @@ from collections import UserString
 from collections.abc import Mapping, Sequence
 from decimal import Decimal
 from enum import StrEnum
-from typing import Annotated, Any, Literal, NotRequired, Self, TypeAlias
+from typing import (
+    Annotated,
+    Any,
+    Generic,  # Remove this when Python 3.12 becomes the minimum supported version.
+    Literal,
+    NotRequired,
+    Self,
+    TypeAlias,
+    TypeVar,
+)
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -53,10 +62,14 @@ class AlpineValidationTrigger(StrEnum):
     ON_INPUT = "@input"
 
 
+class _AlpineHookFormValidationRule(TypedDict):
+    test: str
+    message: NotRequired[str]
+
+
 class _AlpineHookFormValidator(TypedDict):
     value_to_validate: NotRequired[str]
-    validation_pattern: str | None
-    validation_fail_message: str | None
+    validation_rules: NotRequired[list[_AlpineHookFormValidationRule]]
     validation_trigger: AlpineValidationTrigger
 
     @classmethod
@@ -64,20 +77,32 @@ class _AlpineHookFormValidator(TypedDict):
         return {"validation_trigger": AlpineValidationTrigger.ON_BLUR}
 
 
+T = TypeVar("T")
+
+
+# Change the class signature
+# from `class _AlpineHookFormConstraintRules(TypedDict, Generic[T]):`
+# to `class _AlpineHookFormConstraintRules[T](TypedDict):`
+# when Python 3.12 becomes the minimum supported version.
+class _AlpineHookFormConstraintRule(TypedDict, Generic[T]):
+    value: T
+    message: NotRequired[str]
+
+
 class _AlpineHookFormConstraints(TypedDict):
-    min: NotRequired[Decimal]
-    min_length: NotRequired[int]
-    max: NotRequired[Decimal]
-    max_length: NotRequired[int]
-    step: NotRequired[Decimal]
-    type: NotRequired[Literal["text", "number"]]
+    min: NotRequired[_AlpineHookFormConstraintRule[Decimal]]
+    min_length: NotRequired[_AlpineHookFormConstraintRule[int]]
+    max: NotRequired[_AlpineHookFormConstraintRule[Decimal]]
+    max_length: NotRequired[_AlpineHookFormConstraintRule[int]]
+    step: NotRequired[_AlpineHookFormConstraintRule[Decimal]]
+    type: NotRequired[_AlpineHookFormConstraintRule[Literal["text", "number"]]]
 
 
 class AlpineHookForm(BaseModel):
     name: Annotated[str | None, Field(default=None)]
     required: Annotated[bool | None, Field(default=None)]
     validator: Annotated[
-        _AlpineHookFormValidator | None,
+        _AlpineHookFormValidator,
         Field(default_factory=_AlpineHookFormValidator.default),
     ]
     constraints: Annotated[_AlpineHookFormConstraints, Field(default_factory=dict)]
