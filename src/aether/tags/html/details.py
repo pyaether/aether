@@ -47,7 +47,7 @@ class Details(BaseHTMLElement):
 
         super().__init__(**validated_attributes)
 
-    def __call__(self, *children: str) -> Self:
+    def __call__(self, *children: tuple) -> Self:
         count_summary_child_tags = [
             isinstance(child, Summary) for child in children
         ].count(True)

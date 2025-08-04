@@ -80,7 +80,7 @@ class Video(BaseHTMLElement):
 
         super().__init__(**validated_attributes)
 
-    def __call__(self, *children: str) -> Self:
+    def __call__(self, *children: tuple) -> Self:
         has_src_attribute = self.attributes.get("src") is not None
         has_any_source_child_tag = any(isinstance(child, Source) for child in children)
         allowed_child_types = (str, A, P, Source, Track)

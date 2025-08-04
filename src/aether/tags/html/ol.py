@@ -56,7 +56,7 @@ class Ol(BaseHTMLElement):
 
         super().__init__(**validated_attributes)
 
-    def __call__(self, *children: str) -> Self:
+    def __call__(self, *children: tuple) -> Self:
         allowed_child_types = (str, Li, Script, Template)
         has_any_li_child_tag = any(isinstance(child, Li) for child in children)
 

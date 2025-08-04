@@ -52,7 +52,7 @@ class Picture(BaseHTMLElement):
 
         super().__init__(**validated_attributes)
 
-    def __call__(self, *children: str) -> Self:
+    def __call__(self, *children: tuple) -> Self:
         allowed_child_types = (str, Img, Source)
         count_img_child_tags = [isinstance(child, Img) for child in children].count(
             True

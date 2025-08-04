@@ -44,7 +44,7 @@ class Tbody(BaseHTMLElement):
 
         super().__init__(**validated_attributes)
 
-    def __call__(self, *children: str) -> Self:
+    def __call__(self, *children: tuple) -> Self:
         allowed_child_types = (str, Tr)
 
         if self.have_children:

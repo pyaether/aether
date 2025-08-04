@@ -46,7 +46,7 @@ class Colgroup(BaseHTMLElement):
 
         super().__init__(**validated_attributes)
 
-    def __call__(self, *children: str) -> Self:
+    def __call__(self, *children: tuple) -> Self:
         has_span_attribute = self.attributes.get("span") is not None
         has_any_col_child_tag = any(isinstance(child, Col) for child in children)
         allowed_child_types = (str, Col)

@@ -49,7 +49,7 @@ class Dl(BaseHTMLElement):
 
         super().__init__(**validated_attributes)
 
-    def __call__(self, *children: str) -> Self:
+    def __call__(self, *children: tuple) -> Self:
         allowed_child_types = (str, Dd, Dt, Div)
 
         if self.have_children:

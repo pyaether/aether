@@ -51,7 +51,7 @@ class Hgroup(BaseHTMLElement):
 
         super().__init__(**validated_attributes)
 
-    def __call__(self, *children: str) -> Self:
+    def __call__(self, *children: tuple) -> Self:
         allowed_child_types = (str, P, H1, H2, H3, H4, H5, H6)
 
         if self.have_children:
