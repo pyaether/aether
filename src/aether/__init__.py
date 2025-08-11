@@ -2,11 +2,14 @@ from .base import BaseAttribute, BaseWebElement, WebElementType
 from .safe_string import mark_safe
 
 
-def render(root: BaseWebElement) -> str:
-    return mark_safe("").join(root.render(stringify=True))
+def render(*elements: BaseWebElement, stringify: bool = True) -> str:
+    rendered_elements = [
+        mark_safe("").join(element.render(stringify=stringify)) for element in elements
+    ]
+    return mark_safe("").join(rendered_elements)
 
 
-__version__ = "0.4.4"
+__version__ = "0.4.5"
 __all__ = [
     "render",
     "BaseAttribute",
