@@ -40,7 +40,7 @@ class ChartJSLegendLabels(BaseModel):
     usePointStyle: bool = True
     padding: int = 12
     font: Annotated[ChartJSFont, Field(default_factory=ChartJSFont)]
-    color: str = "hsl(var(--foreground))"
+    color: str = "var(--foreground)"
 
 
 class ChartJSLegend(BaseModel):
@@ -53,10 +53,10 @@ class ChartJSTooltip(BaseModel):
     enabled: bool = True
     mode: str = "index"
     intersect: bool = False
-    backgroundColor: str = "hsl(var(--background))"
-    titleColor: str = "hsl(var(--foreground))"
-    bodyColor: str = "hsl(var(--foreground))"
-    borderColor: str = "hsl(var(--border))"
+    backgroundColor: str = "var(--background)"
+    titleColor: str = "var(--foreground)"
+    bodyColor: str = "var(--foreground)"
+    borderColor: str = "var(--border)"
     borderWidth: int = 1
     padding: int = 12
     callbacks: dict[str, Any] | None = None  # Allows custom tooltip callbacks
@@ -69,7 +69,7 @@ class ChartJSTitle(BaseModel):
     font: Annotated[
         ChartJSFont, Field(default_factory=lambda: ChartJSFont(size=16, weight="600"))
     ]
-    color: str = "hsl(var(--foreground))"
+    color: str = "var(--foreground)"
 
 
 class ChartJSPlugins(BaseModel):
@@ -81,12 +81,12 @@ class ChartJSPlugins(BaseModel):
 
 class ChartJSAxisGrid(BaseModel):
     display: bool = True
-    color: str = "hsl(var(--border) / 0.2)"
+    color: str = "var(--border) / 0.2"
     drawBorder: bool = False
 
 
 class ChartJSAxisTick(BaseModel):
-    color: str = "hsl(var(--muted-foreground))"
+    color: str = "var(--muted-foreground)"
     font: Annotated[ChartJSFont, Field(default_factory=ChartJSFont)]
 
 
@@ -146,12 +146,8 @@ def build_chart_config_from_attributes(
         dataset = ChartJSDataset(
             label=chart_attributes.get("chart_label", "Dataset"),
             data=chart_attributes["chart_data"],
-            backgroundColor=chart_attributes.get(
-                "chart_bg_color", "hsl(var(--chart-1))"
-            ),
-            borderColor=chart_attributes.get(
-                "chart_border_color", "hsl(var(--chart-1))"
-            ),
+            backgroundColor=chart_attributes.get("chart_bg_color", "var(--chart-1)"),
+            borderColor=chart_attributes.get("chart_border_color", "var(--chart-1)"),
             borderWidth=chart_attributes.get("chart_border_width", 2),
         )
         if chart_config.type == "line":
