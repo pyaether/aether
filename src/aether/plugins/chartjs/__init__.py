@@ -105,7 +105,7 @@ class ChartJSScales(BaseModel):
     x: Annotated[ChartJSAxis, Field(default_factory=ChartJSAxis)]
     y: Annotated[ChartJSAxis, Field(default_factory=ChartJSAxis)]
     x1: Annotated[ChartJSAxis | None, Field(default=None)]
-    y2: Annotated[ChartJSAxis | None, Field(default=None)]
+    y1: Annotated[ChartJSAxis | None, Field(default=None)]
 
 
 class ChartJSOptions(BaseModel):
