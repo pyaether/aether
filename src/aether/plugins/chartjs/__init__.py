@@ -171,17 +171,17 @@ def build_chart_config_from_attributes(
         scales = ChartJSScales()
 
         if "chart_scales_x" in chart_attributes:
-            scales.x = ChartJSScales(**chart_attributes["chart_scales_x"])
+            scales.x = ChartJSAxis(**chart_attributes["chart_scales_x"])
 
         if "chart_scales_y" in chart_attributes:
-            scales.y = ChartJSScales(**chart_attributes["chart_scales_y"])
+            scales.y = ChartJSAxis(**chart_attributes["chart_scales_y"])
 
         if chart_config.type in ["line", "scatter"]:
             if "chart_scales_x1" in chart_attributes:
-                scales.x1 = ChartJSScales(**chart_attributes["chart_scales_x1"])
+                scales.x1 = ChartJSAxis(**chart_attributes["chart_scales_x1"])
 
             if "chart_scales_y1" in chart_attributes:
-                scales.y1 = ChartJSScales(**chart_attributes["chart_scales_y1"])
+                scales.y1 = ChartJSAxis(**chart_attributes["chart_scales_y1"])
 
         if chart_attributes.get("chart_stacked"):
             scales.x.stacked = True
