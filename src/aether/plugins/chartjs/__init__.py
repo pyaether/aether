@@ -83,6 +83,7 @@ class ChartJSAxisGrid(BaseModel):
     display: bool = True
     color: str = "var(--border) / 0.2"
     drawBorder: bool = False
+    drawOnChartArea: bool | None = None
 
 
 class ChartJSAxisTick(BaseModel):
@@ -103,6 +104,8 @@ class ChartJSAxis(BaseModel):
 class ChartJSScales(BaseModel):
     x: Annotated[ChartJSAxis, Field(default_factory=ChartJSAxis)]
     y: Annotated[ChartJSAxis, Field(default_factory=ChartJSAxis)]
+    x1: Annotated[ChartJSAxis | None, Field(default=None)]
+    y2: Annotated[ChartJSAxis | None, Field(default=None)]
 
 
 class ChartJSOptions(BaseModel):
@@ -165,6 +168,20 @@ def build_chart_config_from_attributes(
 
     if chart_config.type in ["bar", "line", "scatter", "bubble"]:
         scales = ChartJSScales()
+
+        if "chart_scales_x" in chart_attributes:
+            scales.x = ChartJSScales(**chart_attributes["chart_scales_x"])
+
+        if "chart_scales_y" in chart_attributes:
+            scales.y = ChartJSScales(**chart_attributes["chart_scales_y"])
+
+        if chart_config.type in ["line", "scatter"]:
+            if "chart_scales_x1" in chart_attributes:
+                scales.x1 = ChartJSScales(**chart_attributes["chart_scales_x1"])
+
+            if "chart_scales_y1" in chart_attributes:
+                scales.y1 = ChartJSScales(**chart_attributes["chart_scales_y1"])
+
         if chart_attributes.get("chart_stacked"):
             scales.x.stacked = True
             scales.y.stacked = True
