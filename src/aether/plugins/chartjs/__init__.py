@@ -100,6 +100,8 @@ class ChartJSAxis(BaseModel):
     type: str | None = None  # e.g., "linear", "logarithmic", "category", etc.
     min: float | None = None
     max: float | None = None
+    position: str | None = None
+    display: bool | None = None
 
 
 class ChartJSScales(BaseModel):
