@@ -22,6 +22,7 @@ class ChartJSDataset(BaseModel):
     hoverBorderColor: str | list[str] | None = None
     order: int | None = None
     type: str | None = None  # dataset type override, e.g., 'line', 'bar'
+    yAxisID: Literal["y", "y1"] | None = None
 
 
 class ChartJSData(BaseModel):
