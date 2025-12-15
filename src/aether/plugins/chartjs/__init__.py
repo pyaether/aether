@@ -4,10 +4,12 @@ from __future__ import (
 
 from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ChartJSDataset(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     label: str
     data: list[Any]
     backgroundColor: str | list[str] | None = None
@@ -26,11 +28,15 @@ class ChartJSDataset(BaseModel):
 
 
 class ChartJSData(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     labels: Annotated[list[str], Field(default_factory=list)]
     datasets: Annotated[list[ChartJSDataset], Field(default_factory=list)]
 
 
 class ChartJSFont(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     size: Annotated[int, Field(ge=1)] = 12
     weight: str | None = None
     family: str | None = None
@@ -38,6 +44,8 @@ class ChartJSFont(BaseModel):
 
 
 class ChartJSLegendLabels(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     usePointStyle: bool = True
     padding: int = 12
     font: Annotated[ChartJSFont, Field(default_factory=ChartJSFont)]
@@ -45,12 +53,16 @@ class ChartJSLegendLabels(BaseModel):
 
 
 class ChartJSLegend(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     display: bool = True
     position: Literal["top", "bottom", "left", "right"] = "top"
     labels: Annotated[ChartJSLegendLabels, Field(default_factory=ChartJSLegendLabels)]
 
 
 class ChartJSTooltip(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     enabled: bool = True
     mode: str = "index"
     intersect: bool = False
@@ -64,6 +76,8 @@ class ChartJSTooltip(BaseModel):
 
 
 class ChartJSTitle(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     display: bool = True
     text: str
     padding: int = 20
@@ -74,6 +88,8 @@ class ChartJSTitle(BaseModel):
 
 
 class ChartJSPlugins(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     legend: Annotated[ChartJSLegend, Field(default_factory=ChartJSLegend)]
     tooltip: Annotated[ChartJSTooltip, Field(default_factory=ChartJSTooltip)]
     title: ChartJSTitle | None = None
@@ -81,6 +97,8 @@ class ChartJSPlugins(BaseModel):
 
 
 class ChartJSAxisGrid(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     display: bool = True
     color: str = "var(--border) / 0.2"
     drawBorder: bool = False
@@ -88,11 +106,15 @@ class ChartJSAxisGrid(BaseModel):
 
 
 class ChartJSAxisTick(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     color: str = "var(--muted-foreground)"
     font: Annotated[ChartJSFont, Field(default_factory=ChartJSFont)]
 
 
 class ChartJSAxis(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     beginAtZero: bool = True
     grid: Annotated[ChartJSAxisGrid, Field(default_factory=ChartJSAxisGrid)]
     ticks: Annotated[ChartJSAxisTick, Field(default_factory=ChartJSAxisTick)]
@@ -105,6 +127,8 @@ class ChartJSAxis(BaseModel):
 
 
 class ChartJSScales(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     x: Annotated[ChartJSAxis, Field(default_factory=ChartJSAxis)]
     y: Annotated[ChartJSAxis, Field(default_factory=ChartJSAxis)]
     x1: Annotated[ChartJSAxis | None, Field(default=None)]
@@ -112,6 +136,8 @@ class ChartJSScales(BaseModel):
 
 
 class ChartJSOptions(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
     responsive: bool = True
     maintainAspectRatio: bool = False
     plugins: Annotated[ChartJSPlugins, Field(default_factory=ChartJSPlugins)]
@@ -122,9 +148,7 @@ class ChartJSOptions(BaseModel):
 
 
 class ChartJSConfig(BaseModel):
-    type: Literal[
-        "bar", "line", "scatter", "bubble", "pie", "doughnut", "radar", "polarArea"
-    ] = "bar"
+    type: str = "bar"
     data: Annotated[ChartJSData, Field(default_factory=ChartJSData)]
     options: Annotated[ChartJSOptions, Field(default_factory=ChartJSOptions)]
 
