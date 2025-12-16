@@ -30,7 +30,7 @@ class ChartJSDataset(BaseModel):
 class ChartJSData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    labels: Annotated[list[str | int | float], Field(default_factory=list)]
+    labels: Annotated[list[Any], Field(default_factory=list)]
     datasets: Annotated[list[ChartJSDataset], Field(default_factory=list)]
 
 
