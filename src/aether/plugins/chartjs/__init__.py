@@ -10,7 +10,7 @@ from pydantic import BaseModel, ConfigDict, Field
 class ChartJSDataset(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    label: str
+    label: str | None
     data: list[Any]
     backgroundColor: str | list[str] | None = None
     borderColor: str | list[str] | None = None
