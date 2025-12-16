@@ -193,7 +193,17 @@ def build_chart_config_from_attributes(
             text=chart_attributes["chart_title"]
         )
 
-    if chart_config.type in ["bar", "line", "scatter", "bubble"]:
+    if "chart_tooltip" in chart_attributes:
+        chart_config.options.plugins.tooltip = ChartJSTooltip(
+            **chart_attributes.get("chart_tooltip", {})
+        )
+
+    if "chart_legend" in chart_attributes:
+        chart_config.options.plugins.legend = ChartJSLegend(
+            **chart_attributes.get("chart_legend", {})
+        )
+
+    if chart_config.type in ["bar", "line", "scatter", "bubble", "matrix"]:
         scales = ChartJSScales()
 
         if "chart_scales_x" in chart_attributes:
