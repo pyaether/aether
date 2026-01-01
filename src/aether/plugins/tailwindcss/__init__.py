@@ -365,6 +365,7 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
     (
         "box-shadow",
         [
+            "shadow-xs",
             "shadow-sm",
             "shadow",
             "shadow-md",
