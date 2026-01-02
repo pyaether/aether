@@ -3,6 +3,7 @@
 from ._base import BaseSVGAttributes, BaseSVGElement
 from .circle import Circle, CircleAttributes
 from .defs import Defs, DefsAttributes
+from .ellipse import Ellipse, EllipseAttributes
 from .g import G, GAttributes
 from .line import Line, LineAttributes
 from .linear_gradient import LinearGradient, LinearGradientAttributes
@@ -19,6 +20,8 @@ __all__ = [
     "CircleAttributes",
     "Defs",
     "DefsAttributes",
+    "Ellipse",
+    "EllipseAttributes",
     "G",
     "GAttributes",
     "Line",
