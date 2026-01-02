@@ -37,7 +37,7 @@ class StopAttributes(BaseSVGAttributes):
 
 
 def _validate_stop_opacity_range(data: StopAttributes) -> None:
-    if data["stop_opacity"] >= 1.0:
+    if data["stop_opacity"] > 1.0:
         raise ValidationError(
             message="'stop_opacity' should be less than or equal to '1.0' (fully opaque)",
             expected_type="less_than_equal",

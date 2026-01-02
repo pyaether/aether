@@ -42,7 +42,7 @@ class TextAttributes(BaseSVGAttributes):
 
 class Text(BaseSVGElement):
     tag_name = "text"
-    have_children = False
+    have_children = True
     content_category = (
         SVGContentCategories.GRAPHICS,
         SVGContentCategories.TEXT_CONTENT,
