@@ -11,6 +11,7 @@ from .polygon import Polygon, PolygonAttributes
 from .rect import Rect, RectAttributes
 from .stop import Stop, StopAttributes
 from .svg import Svg, SvgAttributes
+from .text import Text, TextAttributes
 
 __all__ = [
     "BaseSVGElement",
@@ -34,5 +35,7 @@ __all__ = [
     "StopAttributes",
     "Svg",
     "SvgAttributes",
+    "Text",
+    "TextAttributes",
     "BaseSVGAttributes",
 ]
