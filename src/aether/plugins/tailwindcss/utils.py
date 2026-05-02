@@ -12,6 +12,10 @@ def precompute_maps(
     for group_id, classes in conflict_groups:
         for item in classes:
             if item.endswith("-"):
+                if item in prefix_map:
+                    raise ValueError(
+                        f"Duplicate prefix '{item}' in conflict groups ('{group_id}' vs '{prefix_map[item]}'). This silently breaks prefix resolution."
+                    )
                 prefix_map[item] = group_id
                 prefix_list.append(item)
             else:
@@ -22,93 +26,91 @@ def precompute_maps(
     return exact_map, prefix_map, sorted_prefix_list
 
 
-def _is_color_class(core_class: str, prefix: str) -> bool:
+_COLOR_NAMES = {
+    "slate",
+    "gray",
+    "zinc",
+    "neutral",
+    "stone",
+    "red",
+    "orange",
+    "amber",
+    "yellow",
+    "lime",
+    "green",
+    "emerald",
+    "teal",
+    "cyan",
+    "sky",
+    "blue",
+    "indigo",
+    "violet",
+    "purple",
+    "fuchsia",
+    "pink",
+    "rose",
+}
+_SPECIAL_COLORS = {"current", "transparent", "inherit", "black", "white"}
+_AMBIGUOUS_PREFIXES = {
+    "text-",
+    "border-",
+    "bg-",
+    "ring-",
+    "outline-",
+    "decoration-",
+    "caret-",
+    "accent-",
+    "fill-",
+    "stroke-",
+    "shadow-",
+    "ring-offset-",
+    "divide-",
+}
+_TEXT_SIZE_KEYWORDS = {
+    "xs",
+    "sm",
+    "base",
+    "lg",
+    "xl",
+    "2xl",
+    "3xl",
+    "4xl",
+    "5xl",
+    "6xl",
+    "7xl",
+    "8xl",
+    "9xl",
+}
+_BORDER_WIDTH_KEYWORDS = {"0", "1", "2", "4", "8"}
+
+
+def is_color_class(core_class: str, prefix: str) -> bool:
     suffix = core_class[len(prefix) :]
+    if suffix in _SPECIAL_COLORS:
+        return True
 
     parts = suffix.split("-")
     if not parts:
         return False
 
-    special_colors = {"current", "transparent", "inherit", "black", "white"}
-    if suffix in special_colors:
-        return True
-
-    # Check if first part is a known color name
-    color_names = {
-        "slate",
-        "gray",
-        "zinc",
-        "neutral",
-        "stone",
-        "red",
-        "orange",
-        "amber",
-        "yellow",
-        "lime",
-        "green",
-        "emerald",
-        "teal",
-        "cyan",
-        "sky",
-        "blue",
-        "indigo",
-        "violet",
-        "purple",
-        "fuchsia",
-        "pink",
-        "rose",
-    }
-
     first_part = parts[0]
-    if first_part in color_names:
+    if first_part in _COLOR_NAMES:
         return True
 
     # Check if it follows color-[number] pattern
-    if len(parts) == 2 and first_part in color_names and parts[1].isdigit():
+    if len(parts) == 2 and first_part in _COLOR_NAMES and parts[1].isdigit():
         return True
 
     # For text- prefix, also check for common size keywords that are NOT colors
-    if prefix == "text-":
-        size_keywords = {
-            "xs",
-            "sm",
-            "base",
-            "lg",
-            "xl",
-            "2xl",
-            "3xl",
-            "4xl",
-            "5xl",
-            "6xl",
-            "7xl",
-            "8xl",
-            "9xl",
-        }
-        if suffix in size_keywords:
-            return False
+    if prefix == "text-" and suffix in _TEXT_SIZE_KEYWORDS:
+        return False
 
     # For border- prefix, check for width keywords that are NOT colors
-    if prefix == "border-":
-        width_keywords = {"0", "1", "2", "4", "8"}
-        if suffix in width_keywords:
-            return False
+    if prefix == "border-" and suffix in _BORDER_WIDTH_KEYWORDS:
+        return False
 
     # If we can't determine definitively, assume it's a color for ambiguous prefixes
-    return prefix in (
-        "text-",
-        "border-",
-        "bg-",
-        "ring-",
-        "outline-",
-        "decoration-",
-        "caret-",
-        "accent-",
-        "fill-",
-        "stroke-",
-        "shadow-",
-        "ring-offset-",
-        "divide-",
-    )
+    return prefix in _AMBIGUOUS_PREFIXES
 
 
 def get_tw_class_signature(
@@ -150,15 +152,8 @@ def get_tw_class_signature(
         if core_tw_class.startswith(prefix):
             group_id = prefix_map[prefix]
 
-            if prefix in (
-                "border-",
-                "text-",
-                "ring-",
-                "outline-",
-                "decoration-",
-                "shadow-",
-            ):
-                if _is_color_class(core_tw_class, prefix):
+            if prefix in _AMBIGUOUS_PREFIXES:
+                if is_color_class(core_tw_class, prefix):
                     return (variants, f"{group_id}-color")
                 else:
                     return (variants, f"{group_id}-size_or_width")

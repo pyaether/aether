@@ -1,6 +1,6 @@
 import re
 
-from .utils import get_tw_class_signature, precompute_maps
+from .utils import get_tw_class_signature, is_color_class, precompute_maps
 
 _VARIANT_REGEX = re.compile(r"^(?:[a-zA-Z0-9-]+:)*")
 _ARBITRARY_REGEX = re.compile(r"^(?:[a-zA-Z0-9-]+:)*([a-zA-Z0-9-]+)-\[([^\]]+)\]$")
@@ -36,11 +36,20 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
     ("visibility", ["visible", "invisible", "collapse"]),
     # Position
     ("position", ["static", "fixed", "absolute", "relative", "sticky"]),
-    ("inset", ["inset-x-", "inset-y-", "top-", "right-", "bottom-", "left-", "inset-"]),
     ("z-index", ["z-"]),
     # Layout
-    ("float", ["float-left", "float-right", "float-none"]),
-    ("clear", ["clear-left", "clear-right", "clear-both", "clear-none"]),
+    ("float", ["float-left", "float-right", "float-none", "float-start", "float-end"]),
+    (
+        "clear",
+        [
+            "clear-left",
+            "clear-right",
+            "clear-both",
+            "clear-none",
+            "clear-start",
+            "clear-end",
+        ],
+    ),
     ("isolation", ["isolate", "isolation-auto"]),
     (
         "object-fit",
@@ -52,7 +61,7 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
             "object-scale-down",
         ],
     ),
-    ("object-position", ["object-"]),  # object-bottom, object-center, etc.
+    ("object-position", ["object-"]),
     (
         "overflow",
         [
@@ -100,18 +109,8 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
     ("min-height", ["min-h-"]),
     ("max-height", ["max-h-"]),
     ("size", ["size-"]),
-    # Spacing - handled specially with CSS property mapping
-    ("padding-top", ["pt-"]),
-    ("padding-right", ["pr-"]),
-    ("padding-bottom", ["pb-"]),
-    ("padding-left", ["pl-"]),
-    ("margin-top", ["mt-"]),
-    ("margin-right", ["mr-"]),
-    ("margin-bottom", ["mb-"]),
-    ("margin-left", ["ml-"]),
-    ("space-between", ["space-x-", "space-y-"]),
     # Typography
-    ("font-family", ["font-sans", "font-serif", "font-mono"]),
+    ("font-family", ["font-sans", "font-serif", "font-mono", "font-"]),
     (
         "font-size",
         [
@@ -177,7 +176,7 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
             "text-end",
         ],
     ),
-    ("text-color", ["text-"]),  # Special handling needed
+    ("text-color", ["text-"]),
     ("text-decoration", ["underline", "overline", "line-through", "no-underline"]),
     ("text-decoration-color", ["decoration-"]),
     (
@@ -240,7 +239,7 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
         "bg-clip",
         ["bg-clip-border", "bg-clip-padding", "bg-clip-content", "bg-clip-text"],
     ),
-    ("bg-color", ["bg-"]),  # Special handling needed
+    ("bg-color", ["bg-"]),
     ("bg-origin", ["bg-origin-border", "bg-origin-padding", "bg-origin-content"]),
     (
         "bg-position",
@@ -284,27 +283,17 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
     ),
     # Borders
     (
-        "border-radius",
+        "border",
         [
-            "rounded-t-",
-            "rounded-r-",
-            "rounded-b-",
-            "rounded-l-",
-            "rounded-tl-",
-            "rounded-tr-",
-            "rounded-br-",
-            "rounded-bl-",
-            "rounded-",
+            "border-t-",
+            "border-r-",
+            "border-b-",
+            "border-l-",
+            "border-s-",
+            "border-e-",
+            "border-",
         ],
     ),
-    (
-        "border-width",
-        ["border-t-", "border-r-", "border-b-", "border-l-", "border-"],
-    ),  # Special handling needed
-    (
-        "border-color",
-        ["border-t-", "border-r-", "border-b-", "border-l-", "border-"],
-    ),  # Special handling needed
     (
         "border-style",
         [
@@ -316,7 +305,8 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
             "border-none",
         ],
     ),
-    ("divide-width", ["divide-x-", "divide-y-"]),
+    ("divide-x", ["divide-x-"]),
+    ("divide-y", ["divide-y-"]),
     ("divide-color", ["divide-"]),
     (
         "divide-style",
@@ -376,7 +366,7 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
             "shadow-none",
         ],
     ),
-    ("box-shadow-color", ["shadow-"]),  # Special handling needed
+    ("box-shadow-color", ["shadow-"]),
     ("opacity", ["opacity-"]),
     (
         "mix-blend-mode",
@@ -432,9 +422,13 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
     ("flex-shrink", ["shrink", "shrink-0"]),
     ("order", ["order-"]),
     ("grid-template-columns", ["grid-cols-"]),
-    ("grid-column", ["col-auto", "col-span-", "col-start-", "col-end-"]),
+    ("grid-column", ["col-auto", "col-span-"]),
+    ("grid-column-start", ["col-start-"]),
+    ("grid-column-end", ["col-end-"]),
     ("grid-template-rows", ["grid-rows-"]),
-    ("grid-row", ["row-auto", "row-span-", "row-start-", "row-end-"]),
+    ("grid-row", ["row-auto", "row-span-"]),
+    ("grid-row-start", ["row-start-"]),
+    ("grid-row-end", ["row-end-"]),
     (
         "grid-auto-flow",
         [
@@ -453,7 +447,11 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
         "grid-auto-rows",
         ["auto-rows-auto", "auto-rows-min", "auto-rows-max", "auto-rows-fr"],
     ),
-    ("gap", ["gap-x-", "gap-y-", "gap-"]),
+    ("gap", ["gap-"]),
+    ("gap-x", ["gap-x-"]),
+    ("gap-y", ["gap-y-"]),
+    ("space-x", ["space-x-"]),
+    ("space-y", ["space-y-"]),
     (
         "justify-content",
         [
@@ -550,10 +548,12 @@ _CONFLICT_GROUPS: list[tuple[str, list[str]]] = [
     ),
 ]
 
-_SPACING_CSS_PROPERTIES = {
+_SPACING_CSS_PROPERTIES: dict[str, list[str]] = {
     "p-": ["padding-top", "padding-right", "padding-bottom", "padding-left"],
     "px-": ["padding-left", "padding-right"],
     "py-": ["padding-top", "padding-bottom"],
+    "ps-": ["padding-inline-start"],
+    "pe-": ["padding-inline-end"],
     "pt-": ["padding-top"],
     "pr-": ["padding-right"],
     "pb-": ["padding-bottom"],
@@ -561,15 +561,100 @@ _SPACING_CSS_PROPERTIES = {
     "m-": ["margin-top", "margin-right", "margin-bottom", "margin-left"],
     "mx-": ["margin-left", "margin-right"],
     "my-": ["margin-top", "margin-bottom"],
+    "ms-": ["margin-inline-start"],
+    "me-": ["margin-inline-end"],
     "mt-": ["margin-top"],
     "mr-": ["margin-right"],
     "mb-": ["margin-bottom"],
     "ml-": ["margin-left"],
 }
 
+_INSET_CSS_PROPERTIES: dict[str, list[str]] = {
+    "inset-": ["top", "right", "bottom", "left"],
+    "inset-x-": ["left", "right"],
+    "inset-y-": ["top", "bottom"],
+    "inset-s-": ["inset-inline-start"],
+    "inset-e-": ["inset-inline-end"],
+    "top-": ["top"],
+    "right-": ["right"],
+    "bottom-": ["bottom"],
+    "left-": ["left"],
+    "start-": ["inset-inline-start"],
+    "end-": ["inset-inline-end"],
+}
+
+_BORDER_RADIUS_EXACT: dict[str, list[str]] = {
+    "rounded": [
+        "border-top-left-radius",
+        "border-top-right-radius",
+        "border-bottom-right-radius",
+        "border-bottom-left-radius",
+    ],
+}
+_BORDER_RADIUS_CSS_PROPERTIES: dict[str, list[str]] = {
+    "rounded-": [
+        "border-top-left-radius",
+        "border-top-right-radius",
+        "border-bottom-right-radius",
+        "border-bottom-left-radius",
+    ],
+    "rounded-t-": ["border-top-left-radius", "border-top-right-radius"],
+    "rounded-r-": ["border-top-right-radius", "border-bottom-right-radius"],
+    "rounded-b-": ["border-bottom-right-radius", "border-bottom-left-radius"],
+    "rounded-l-": ["border-top-left-radius", "border-bottom-left-radius"],
+    "rounded-s-": ["border-start-start-radius", "border-end-start-radius"],
+    "rounded-e-": ["border-start-end-radius", "border-end-end-radius"],
+    "rounded-tl-": ["border-top-left-radius"],
+    "rounded-tr-": ["border-top-right-radius"],
+    "rounded-br-": ["border-bottom-right-radius"],
+    "rounded-bl-": ["border-bottom-left-radius"],
+    "rounded-ss-": ["border-start-start-radius"],
+    "rounded-se-": ["border-start-end-radius"],
+    "rounded-ee-": ["border-end-end-radius"],
+    "rounded-es-": ["border-end-start-radius"],
+}
+_BORDER_WIDTH_EXACT: dict[str, list[str]] = {
+    "border": [
+        "border-top-width",
+        "border-right-width",
+        "border-bottom-width",
+        "border-left-width",
+    ],
+}
+_BORDER_WIDTH_CSS_PROPERTIES: dict[str, list[str]] = {
+    "border-": [
+        "border-top-width",
+        "border-right-width",
+        "border-bottom-width",
+        "border-left-width",
+    ],
+    "border-t-": ["border-top-width"],
+    "border-r-": ["border-right-width"],
+    "border-b-": ["border-bottom-width"],
+    "border-l-": ["border-left-width"],
+    "border-s-": ["border-inline-start-width"],
+    "border-e-": ["border-inline-end-width"],
+}
+
+_SPACING_PREFIXES = sorted(_SPACING_CSS_PROPERTIES, key=len, reverse=True)
+_INSET_PREFIXES = sorted(_INSET_CSS_PROPERTIES, key=len, reverse=True)
+_BORDER_RADIUS_PREFIXES = sorted(_BORDER_RADIUS_CSS_PROPERTIES, key=len, reverse=True)
+_BORDER_WIDTH_PREFIXES = sorted(_BORDER_WIDTH_CSS_PROPERTIES, key=len, reverse=True)
+
 _EXACT_MAP, _PREFIX_MAP, _PREFIX_LIST = precompute_maps(
     conflict_groups=_CONFLICT_GROUPS
 )
+
+
+def _find_prefix_match(
+    core_class: str,
+    prefix_list: list[str],
+    prop_map: dict[str, list[str]],
+) -> list[str] | None:
+    for prefix in prefix_list:
+        if core_class.startswith(prefix):
+            return prop_map[prefix]
+    return None
 
 
 def tw_merge(*tw_classes: str) -> str:
@@ -601,27 +686,49 @@ def tw_merge(*tw_classes: str) -> str:
         )
 
         core_class = tw_class[len(variants) :]
-        spacing_prefix = None
-        for prefix in _SPACING_CSS_PROPERTIES:
-            if core_class.startswith(prefix):
-                spacing_prefix = prefix
-                break
 
-        if spacing_prefix:
-            css_properties = _SPACING_CSS_PROPERTIES[spacing_prefix]
+        css_properties: list[str] | None = None
+
+        css_properties = _find_prefix_match(
+            core_class, _SPACING_PREFIXES, _SPACING_CSS_PROPERTIES
+        )
+
+        if css_properties is None:
+            css_properties = _find_prefix_match(
+                core_class, _INSET_PREFIXES, _INSET_CSS_PROPERTIES
+            )
+
+        if css_properties is None:
+            if core_class in _BORDER_RADIUS_EXACT:
+                css_properties = _BORDER_RADIUS_EXACT[core_class]
+            else:
+                css_properties = _find_prefix_match(
+                    core_class, _BORDER_RADIUS_PREFIXES, _BORDER_RADIUS_CSS_PROPERTIES
+                )
+
+        if css_properties is None:
+            if core_class in _BORDER_WIDTH_EXACT:
+                css_properties = _BORDER_WIDTH_EXACT[core_class]
+            else:
+                for prefix in _BORDER_WIDTH_PREFIXES:
+                    if core_class.startswith(prefix) and not is_color_class(
+                        core_class, prefix
+                    ):
+                        css_properties = _BORDER_WIDTH_CSS_PROPERTIES[prefix]
+                        break
+
+        if css_properties is not None:
             for css_property in css_properties:
+                key = (variants, css_property)
                 if (
-                    variants,
-                    css_property,
-                ) not in tw_css_property_classes or tw_css_property_classes[
-                    (variants, css_property)
-                ][1] < pos:
-                    tw_css_property_classes[(variants, css_property)] = (tw_class, pos)
+                    key not in tw_css_property_classes
+                    or tw_css_property_classes[key][1] < pos
+                ):
+                    tw_css_property_classes[key] = (tw_class, pos)
         else:
-            if (variants, group_id) not in conflict_tw_classes or conflict_tw_classes[
-                (variants, group_id)
-            ][1] < pos:
-                conflict_tw_classes[(variants, group_id)] = (tw_class, pos)
+            key = (variants, group_id)
+            if key not in conflict_tw_classes or conflict_tw_classes[key][1] < pos:
+                conflict_tw_classes[key] = (tw_class, pos)
 
     final_classes = []
     used_classes = set()
