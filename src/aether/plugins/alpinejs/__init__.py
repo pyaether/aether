@@ -226,3 +226,72 @@ def alpine_js_data_merge(
     merged_js_data_directive = base_alpine_js_data.directive
 
     return AlpineJSData(data=merged_js_data, directive=merged_js_data_directive)
+
+
+def alpine_js_x_on_event_merge(
+    base_alpine_js_x_on_events: dict[str, str] | None,
+    alpine_js_x_on_events_to_merge: dict[str, str] | None,
+) -> dict[str, str] | None:
+    if base_alpine_js_x_on_events is None and alpine_js_x_on_events_to_merge is None:
+        return None
+    if (
+        base_alpine_js_x_on_events is not None
+        and alpine_js_x_on_events_to_merge is None
+    ):
+        return base_alpine_js_x_on_events
+    if (
+        base_alpine_js_x_on_events is None
+        and alpine_js_x_on_events_to_merge is not None
+    ):
+        return alpine_js_x_on_events_to_merge
+
+    if not all(key.startswith(("@", "x-on:")) for key in base_alpine_js_x_on_events):
+        raise ValueError(
+            "'base_alpine_js_x_on_events' should only contain Alpine.js x-on directives (keys starting with '@' or 'x-on:')"
+        )
+    if not all(
+        key.startswith(("@", "x-on:")) for key in alpine_js_x_on_events_to_merge
+    ):
+        raise ValueError(
+            "'alpine_js_x_on_events_to_merge' should only contain Alpine.js x-on directives (keys starting with '@' or 'x-on:')"
+        )
+
+    merged_alpine_js_x_on_events = {}
+    temporary_event_key_mapping = {}
+
+    for key, value in base_alpine_js_x_on_events.items():
+        merged_alpine_js_x_on_events[key] = value.strip(" ;")
+
+        normalized_event_key = key.removeprefix("@").removeprefix("x-on:")
+        temporary_event_key_mapping[normalized_event_key] = key
+
+    for key, value in alpine_js_x_on_events_to_merge.items():
+        overwrite = key.endswith(".overwrite")
+        normalized_event_key = (
+            key.removeprefix("@").removeprefix("x-on:").removesuffix(".overwrite")
+        )
+
+        incoming_event_value = value.strip(" ;")
+        incoming_event_key = key.removesuffix(".overwrite")
+        existing_event_key = temporary_event_key_mapping.get(normalized_event_key)
+
+        if existing_event_key is not None:
+            if overwrite:
+                merged_alpine_js_x_on_events[existing_event_key] = incoming_event_value
+            else:
+                existing_event_value = merged_alpine_js_x_on_events[existing_event_key]
+                if existing_event_value == incoming_event_value:
+                    continue
+                elif existing_event_value and incoming_event_value:
+                    merged_alpine_js_x_on_events[existing_event_key] = (
+                        f"{existing_event_value}; {incoming_event_value}"
+                    )
+                else:
+                    merged_alpine_js_x_on_events[existing_event_key] = (
+                        existing_event_value or incoming_event_value
+                    )
+        else:
+            merged_alpine_js_x_on_events[incoming_event_key] = incoming_event_value
+            temporary_event_key_mapping[normalized_event_key] = incoming_event_key
+
+    return merged_alpine_js_x_on_events
